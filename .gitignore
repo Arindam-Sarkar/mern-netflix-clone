@@ -1,0 +1,6 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/mern-netflix-clone-client/node_modules
+/mern-netflix-clone-ui/node_modules
+
