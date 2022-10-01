@@ -1,0 +1,14 @@
+.bgStyle {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 1;
+}
+
+.bgStyle>img {
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+}

@@ -1,0 +1,91 @@
+import React, { useEffect, useRef, useState } from 'react'
+import './sliderviewrow.css'
+import SliderViewCard from './SliderViewCard'
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import axios from 'axios'
+
+const SliderViewRow = ({ title, reqUrl }) => {
+  const [urlData, setUrlData] = useState([])
+  const [urlDataFinal, setUrlDataFinal] = useState([])
+  const [urlDataReceived, setUrlDataReceived] = useState(false)
+
+  const [sliderPosition, setSliderPosition] = useState(0);
+  const svrSliderRef = useRef()
+
+  // new
+  useEffect(() => {
+    const fetchUrlData = async () => {
+
+      try {
+        const response = await axios.get(reqUrl)
+        const responseArr = await response.data.results
+
+        setUrlData(responseArr)
+        setUrlDataReceived(true)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchUrlData()
+  }, [reqUrl])
+
+
+  const SLIDE_OFFSET = 200
+  const LEFT_SLIDE_OFFSET = SLIDE_OFFSET
+  const RIGHT_SLIDE_OFFSET = SLIDE_OFFSET
+
+
+
+  const handleSlide = (dirn) => {
+    let currentPosition = svrSliderRef.current.getBoundingClientRect().x;
+
+    if (dirn === 'left' && sliderPosition > 0) {
+
+      svrSliderRef.current.style.transform =
+        `translateX(${currentPosition + LEFT_SLIDE_OFFSET}px)`;
+
+      setSliderPosition(sliderPosition - 1);
+    }
+    else if (dirn === 'right' && sliderPosition < urlData?.length) {
+
+      svrSliderRef.current.style.transform =
+        `translateX(${currentPosition - RIGHT_SLIDE_OFFSET}px)`;
+
+      setSliderPosition(sliderPosition + 1);
+    }
+  }
+
+
+  return (
+    <div className= "svrMainComp" >
+    <div className="svrComp" >
+
+      <h1 className="svrH1" > { title } < /h1>
+
+        < div className = 'svrAL' onClick = {() => handleSlide('left')}>
+          <AiOutlineLeft />
+          < /div>
+
+
+          < div className = 'svrSliderCont' >
+            <div ref={ svrSliderRef } className = 'svrSlider' >
+              {
+                urlDataReceived?
+                  (urlData.map((data, i) => <SliderViewCard key={ data.id } cardData = { data } />)) :
+                (<h1 className="svrH1" > Data Not Avilable < /h1>)
+            }
+                    </div>
+                    < /div>
+
+
+
+                    < div className = 'svrAR' onClick = {() => handleSlide('right')}>
+                    <AiOutlineRight />
+                    < /div>
+
+                    < /div >
+                  < /div >
+                  )
+}
+
+export default SliderViewRow

@@ -1,0 +1,54 @@
+.svrMainComp {
+  position: relative;
+
+  max-width: 100vw;
+  max-height: 20vh;
+
+  width: 95vw;
+  height: 100%;
+
+  margin-bottom: 14vh;
+}
+
+.svrComp {
+  border: 1px solid white;
+}
+
+.svrH1 {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.svrSliderCont {
+  border: 1px solid red;
+
+  width: 100%;
+  height: 23vh;
+
+  overflow: hidden;
+}
+
+.svrSlider {
+  display: flex;
+  height: 23vh;
+}
+
+.svrAL {
+  position: absolute;
+  font-size: 70px;
+  font-weight: 900;
+  opacity: 0.5;
+
+  top: 0%;
+  left: -40px;
+}
+
+.svrAR {
+  position: absolute;
+  font-size: 70px;
+  font-weight: 900;
+  opacity: 0.5;
+
+  top: 0%;
+  right: -45px;
+}

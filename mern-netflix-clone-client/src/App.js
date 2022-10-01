@@ -1,24 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
 
+import BackgroundImage from './components/BackgroundImage';
+import { Route, Routes } from "react-router-dom";
+
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Netflix from './pages/Netflix'
+import Player from './components/Player';
+import video from "./assets/video.mp4"
+
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="App">
+        <Routes>
+          <Route path='/' element={<Signup />} />
+          <Route path='/player' element={<Player />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/netflix' element={<Netflix />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 

@@ -1,0 +1,24 @@
+.svcImageCont {
+  cursor: pointer;
+
+  margin-left: 10px;
+  margin-right: 10px;
+
+  border: 1px solid blue;
+}
+
+.svcImage {
+  width: 16vw;
+  height: 21vh;
+
+  min-width: 16vw;
+
+  color: white;
+
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: -1;
+}

@@ -1,0 +1,65 @@
+.svczImageCont {
+  cursor: pointer;
+
+  position: absolute;
+
+  bottom: -9vh;
+
+  min-width: 15vw;
+  min-height: 15vw;
+
+  border: 1px solid blue;
+  background-color: gray;
+
+}
+
+.svczImage {
+  width: 22vw;
+  height: 20vh;
+
+  min-width: 16vw;
+
+  color: white;
+
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svczName {
+  margin-top: 3px;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+.svczmCont {
+  margin-top: 7px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 5px;
+  margin-left: 5px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.svczmContLeft {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.svczmContRight {
+  display: flex;
+  justify-content: flex-end;
+  width: 25%;
+  margin-right: 25px;
+}
+
+.svczmIcons {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* #b8b8b8; */

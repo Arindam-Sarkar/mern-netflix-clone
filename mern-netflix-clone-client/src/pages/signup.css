@@ -1,0 +1,125 @@
+.signInMainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.signInContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 80%;
+  height: 60%;
+
+  z-index: 4;
+}
+
+.signInContainer>h1 {
+  font-size: 60px;
+}
+
+.signInContainer>h3 {
+  font-size: 30px;
+}
+
+.signInContainer>h4 {
+  font-size: 25px;
+}
+
+.emailContainer1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+
+  width: 80%;
+  height: 10vh;
+}
+
+.emailContainer2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+
+  width: 80%;
+  height: 10vh;
+}
+
+.emailContainer1>input {
+  height: 46px;
+  width: 70%;
+}
+
+.emailContainer1>button {
+  height: 50px;
+  width: 30%;
+  border-radius: 0px 5px 5px 0px;
+
+  outline: none;
+  border: none;
+
+  cursor: pointer;
+
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #e50914;
+  color: white;
+}
+
+.emailContainerAlternte {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+}
+
+.emailContainer2>input {
+  height: 46px;
+  width: 70%;
+}
+
+.emailContainerAlternte>button {
+  height: 30px;
+  width: 20%;
+  border-radius: 5px;
+
+  outline: none;
+  border: none;
+
+  cursor: pointer;
+
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #e50914;
+  color: white;
+}
+
+.signupUserExists {
+  height: 30px;
+  width: 80%;
+
+  margin-top: 20px;
+
+  border-radius: 5px;
+
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #e50914;
+
+  display: flex;
+  justify-content: center;
+}
