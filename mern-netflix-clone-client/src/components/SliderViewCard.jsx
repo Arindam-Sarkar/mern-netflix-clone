@@ -6,27 +6,33 @@ const SliderViewCard = ({ cardData }) => {
 
   const [svcFocussed, setSvcFocussed] = useState(false)
 
+
+  const svcFocussedHandler = (value) => {
+    setSvcFocussed(value)
+  }
+
   return (
     <>
 
       <div className='svcImageCont'
-        onMouseEnter={() => setSvcFocussed(true)}
-        onMouseLeave={() => setSvcFocussed(false)}>
-
+        onMouseEnter={() => svcFocussedHandler(true)}
+        onMouseLeave={() => svcFocussedHandler(false)}
+      >
         {svcFocussed ?
-          (<>
-            < SliderViewCardZoomed cardData={cardData} />
-            <img className='svcImage'
-              src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
-              alt="No Image" />
-          </>) :
+          (
+            <>
+              < SliderViewCardZoomed cardData={cardData} />
+              <img className='svcImage'
+                src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
+                alt="No Image" />
+            </>
+          ) :
           (
             <>
               <img className='svcImage'
                 src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
                 alt="No Image" />
             </>
-
           )
 
 

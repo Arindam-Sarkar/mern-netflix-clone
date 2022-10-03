@@ -8,16 +8,19 @@
   min-width: 15vw;
   min-height: 15vw;
 
-  border: 1px solid blue;
+  width: 18vw;
+  height: 20vh;
+
+  /* border: 1px solid blue; */
   background-color: gray;
 
 }
 
-.svczImage {
-  width: 22vw;
-  height: 20vh;
+.svczVideo {
+  width: 18vw;
+  height: 18vh;
 
-  min-width: 16vw;
+  padding: 0;
 
   color: white;
 
@@ -25,6 +28,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  object-fit: cover;
 }
 
 .svczName {
@@ -62,4 +67,6 @@
   cursor: pointer;
 }
 
-/* #b8b8b8; */
+.svczmIconsSelected {
+  color: #e40914;
+}

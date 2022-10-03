@@ -93,6 +93,7 @@ const Navbar = () => {
 
                     onMouseEnter={() => setInputHover(true)}
                     onMouseLeave={() => setInputHover(false)}
+
                     onBlur={() => {
                       setShowSearch(false);
                       setInputHover(false);

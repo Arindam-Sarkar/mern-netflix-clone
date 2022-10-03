@@ -8,6 +8,8 @@ const SliderViewRow = ({ title, reqUrl }) => {
   const [urlData, setUrlData] = useState([])
   const [urlDataReceived, setUrlDataReceived] = useState(false)
   const [urlDataFirstElement, SetUrlDataFirstElement] = useState(0)
+  const [arrowVisible, SetArrowVisible] = useState(false)
+
 
   useEffect(() => {
     const fetchUrlData = async () => {
@@ -15,7 +17,6 @@ const SliderViewRow = ({ title, reqUrl }) => {
       try {
         const response = await axios.get(reqUrl)
 
-        // console.log(response)
         const responseArr = await response.data.results
 
         setUrlData(responseArr)
@@ -47,9 +48,6 @@ const SliderViewRow = ({ title, reqUrl }) => {
     }
   }
 
-
-
-
   return (
     <div className="svrMainComp">
       <div className="svrComp">
@@ -60,7 +58,6 @@ const SliderViewRow = ({ title, reqUrl }) => {
           <AiOutlineLeft />
         </div>
 
-
         <div className='svrSliderCont'>
           <div className='svrSlider'>
             {
@@ -70,8 +67,6 @@ const SliderViewRow = ({ title, reqUrl }) => {
             }
           </div>
         </div>
-
-
 
         <div className='svrAR' onClick={(e) => handleRightSlide(e)}>
           <AiOutlineRight />

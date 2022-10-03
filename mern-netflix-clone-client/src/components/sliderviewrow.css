@@ -4,8 +4,10 @@
   max-width: 100vw;
   max-height: 20vh;
 
-  width: 95vw;
+  width: 94vw;
   height: 100%;
+
+  margin-left: -1vh;
 
   margin-bottom: 14vh;
 }
@@ -20,7 +22,7 @@
 }
 
 .svrSliderCont {
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
   width: 100%;
   height: 23vh;
@@ -39,8 +41,8 @@
   font-weight: 900;
   opacity: 0.5;
 
-  top: 0%;
-  left: -40px;
+  top: 10vh;
+  left: -3vw;
 }
 
 .svrAR {
@@ -49,6 +51,6 @@
   font-weight: 900;
   opacity: 0.5;
 
-  top: 0%;
-  right: -45px;
+  top: 10vh;
+  right: -3vw;
 }
