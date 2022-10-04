@@ -5,7 +5,6 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
-import video from "../assets/video.mp4"
 
 const SliderViewCardZoomed = ({ cardData }) => {
   const [iconFocussed, setIconFocussed] =

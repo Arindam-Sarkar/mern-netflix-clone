@@ -3,13 +3,18 @@
 
   position: absolute;
 
-  bottom: -9vh;
-
   min-width: 15vw;
-  min-height: 15vw;
+  min-height: 14vw;
+
+  max-width: 20vw;
+  max-height: 30vh;
+
+  overflow: hidden;
 
   width: 18vw;
-  height: 20vh;
+  height: 25vh;
+
+  margin-top: -9vh;
 
   /* border: 1px solid blue; */
   background-color: gray;
