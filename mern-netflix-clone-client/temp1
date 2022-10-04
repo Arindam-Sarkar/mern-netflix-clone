@@ -4,88 +4,80 @@ import SliderViewCard from './SliderViewCard'
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
 
-const SliderViewRow = ({ title, reqUrl }) => {
+import { useSelector, useDispatch } from 'react-redux';
+import { movieSliceCallbacks } from '../reduxSlices/movieSlice';
+import { MovieSliceGenreNameStrings } from '../reduxSlices/movieSlice';
+
+const SliderViewRow = ({ genre }) => {
   const [urlData, setUrlData] = useState([])
-  const [urlDataFinal, setUrlDataFinal] = useState([])
-  const [urlDataReceived, setUrlDataReceived] = useState(false)
+  const [urlDataFirstElement, SetUrlDataFirstElement] = useState(0)
+  // const [arrowVisible, SetArrowVisible] = useState(false)
 
-  const [sliderPosition, setSliderPosition] = useState(0);
-  const svrSliderRef = useRef()
+  const dispatch = useDispatch();
 
-  // new
+  const movies = useSelector((state) => state.movie.movies);
+
+
   useEffect(() => {
-    const fetchUrlData = async () => {
-
-      try {
-        const response = await axios.get(reqUrl)
-        const responseArr = await response.data.results
-
-        setUrlData(responseArr)
-        setUrlDataReceived(true)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    fetchUrlData()
-  }, [reqUrl])
+    dispatch(movieSliceCallbacks[genre]);
+  }, [genre])
 
 
-  const SLIDE_OFFSET = 200
-  const LEFT_SLIDE_OFFSET = SLIDE_OFFSET
-  const RIGHT_SLIDE_OFFSET = SLIDE_OFFSET
+  useEffect(() => {
+    setUrlData(movies[genre].data)
+
+    console.log(movies[genre].data)
+  }, [movies[genre].dataLoaded])
 
 
 
-  const handleSlide = (dirn) => {
-    let currentPosition = svrSliderRef.current.getBoundingClientRect().x;
-
-    if (dirn === 'left' && sliderPosition > 0) {
-
-      svrSliderRef.current.style.transform =
-        `translateX(${currentPosition + LEFT_SLIDE_OFFSET}px)`;
-
-      setSliderPosition(sliderPosition - 1);
-    }
-    else if (dirn === 'right' && sliderPosition < urlData?.length) {
-
-      svrSliderRef.current.style.transform =
-        `translateX(${currentPosition - RIGHT_SLIDE_OFFSET}px)`;
-
-      setSliderPosition(sliderPosition + 1);
+  const handleLeftSlide = (e) => {
+    e.preventDefault()
+    let temp = urlDataFirstElement
+    // console.log("handleLeftSlide");
+    if (temp > 0) {
+      temp--
+      SetUrlDataFirstElement(temp)
     }
   }
 
+  const handleRightSlide = (e) => {
+    e.preventDefault()
+    let temp = urlDataFirstElement
+    // console.log("handleRightSlide")
+    if (temp < urlData.length - 5) {
+      temp++
+      SetUrlDataFirstElement(temp)
+    }
+  }
 
   return (
     <div className= "svrMainComp" >
     <div className="svrComp" >
 
-      <h1 className="svrH1" > { title } < /h1>
+      <h1 className="svrH1" > { MovieSliceGenreNameStrings[genre]} < /h1>
 
-        < div className = 'svrAL' onClick = {() => handleSlide('left')}>
+        < div className = 'svrAL' onClick = {(e) => handleLeftSlide(e)}>
           <AiOutlineLeft />
           < /div>
 
-
           < div className = 'svrSliderCont' >
-            <div ref={ svrSliderRef } className = 'svrSlider' >
+            <div className='svrSlider' >
               {
-                urlDataReceived?
-                  (urlData.map((data, i) => <SliderViewCard key={ data.id } cardData = { data } />)) :
-                (<h1 className="svrH1" > Data Not Avilable < /h1>)
+                movies[genre].dataLoaded ?
+                  (urlData.slice(urlDataFirstElement).map((data, i) => <SliderViewCard key={ data.id } cardData = { data } />)) :
+                  (<h1 className= "svrH1" > Data Not Avilable</ h1 >)
             }
-                    </div>
-                    < /div>
+</div>
+  < /div>
 
+  < div className = 'svrAR' onClick = {(e) => handleRightSlide(e)}>
+    <AiOutlineRight />
+    < /div>
 
-
-                    < div className = 'svrAR' onClick = {() => handleSlide('right')}>
-                    <AiOutlineRight />
-                    < /div>
-
-                    < /div >
-                  < /div >
-                  )
+    < /div >
+    < /div >
+  )
 }
 
 export default SliderViewRow

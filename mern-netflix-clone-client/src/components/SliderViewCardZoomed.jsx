@@ -20,9 +20,12 @@ const SliderViewCardZoomed = ({ cardData }) => {
   return (
     < div className='svczImageCont' >
 
-      <video className='svczVideo'
-        src={video} autoPlay loop muted />
+      {/* <video className='svczVideo'
+        src={video} autoPlay loop muted /> */}
 
+      <img className='svczVideo'
+        src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
+        alt="No Image" />
 
       <h4 className='svczName'>{cardData.original_title}</h4>
       <div className='svczmCont'>

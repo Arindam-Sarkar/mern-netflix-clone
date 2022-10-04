@@ -5,8 +5,9 @@ import SliderViewGroup from '../components/SliderViewGroup'
 
 import './netflix.css'
 
-const Netflix = () => {
 
+
+const Netflix = () => {
 
   return (
     <div className='netflixMainCont'>

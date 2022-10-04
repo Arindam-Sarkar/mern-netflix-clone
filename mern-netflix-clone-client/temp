@@ -1,27 +1,109 @@
-adult: false
-​​
-backdrop_path: "/7ZO9yoEU2fAHKhmJWfAc2QIPWJg.jpg"
-​​
-genre_ids: Array(3) [ 53, 28, 878 ]
-​​
-id: 766507
-​​
-original_language: "en"
-​​
-original_title: "Prey"
-​​
-overview: "When danger threatens her camp, the fierce and highly skilled Comanche warrior Naru sets out to protect her people. But the prey she stalks turns out to be a highly evolved alien predator with a technically advanced arsenal."
-​​
-popularity: 1488.848
-​​
-poster_path: "/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg"
-​​
-release_date: "2022-08-02"
-​​
-title: "Prey"
-​​
-video: false
-​​
-vote_average: 7.9
-​​
-vote_count: 4096
+import {
+  createAsyncThunk,
+  createSlice,
+} from "@reduxjs/toolkit";
+
+import axios from "axios";
+
+import { MovieReqUrls } from "../utils/MovieTvReqUrls";
+
+
+export const MOVIE_SLICE_TYPE_MOVIE = 0
+export const MOVIE_SLICE_TYPE_TV = 1
+//---------------------------------------------
+export const MOVIE_SLICE_TOP_RATED = 0
+export const MOVIE_SLICE_ACTION = 1
+export const MOVIE_SLICE_COMEDY = 2
+
+
+
+// movies[MOVIE_SLICE_UPCOMING].data => movies[0].data
+const initialState = {
+  movies: [
+    { data: [], dataLoaded: false },
+    { data: [], dataLoaded: false },
+    { data: [], dataLoaded: false },
+    { data: [], dataLoaded: false },
+    { data: [], dataLoaded: false },
+    { data: [], dataLoaded: false }
+  ]
+};
+//---------------------------------------------
+
+
+
+export const fetchTopRatedMovies = createAsyncThunk(
+  "Movie/TopRated",
+  async () => {
+    const resp = await axios.get(MovieReqUrls.TopRated);
+    const movieData = await resp.data.results
+    // console.log(movieData)
+    return movieData;
+  }
+)
+
+export const fetchActionMovies = createAsyncThunk(
+  "Movie/Action",
+  async () => {
+    const resp = await axios.get(MovieReqUrls.Action);
+    const movieData = await resp.data.results
+    // console.log(movieData)
+    return movieData;
+  }
+)
+
+export const fetchComedyMovies = createAsyncThunk(
+  "Movie/Comedy",
+  async () => {
+    const resp = await axios.get(MovieReqUrls.Comedy);
+    const movieData = await resp.data.results
+    // console.log(movieData)
+    return movieData;
+  }
+)
+
+
+//---------------------------------------------
+// movieSliceCallbacks[MOVIE_SLICE_UPCOMING] 
+// => movieSliceCallbacks[0]
+// => fetchUpcomingMovies()
+export const movieSliceCallbacks = [
+  fetchTopRatedMovies(),
+  fetchActionMovies(),
+  fetchComedyMovies()
+]
+//---------------------------------------------
+
+
+//---------------------------------------------
+export const MovieSliceGenreNameStrings = [
+  "Top Rated",
+  "Action",
+  "Comedy",
+]
+//---------------------------------------------
+
+export const MovieSlice = createSlice({
+  name: "Movie",
+  initialState,
+
+  extraReducers: (builder) => {
+    builder.addCase(fetchTopRatedMovies.fulfilled, (state, action) => {
+      state.movies[MOVIE_SLICE_TOP_RATED].data = action.payload;
+      state.movies[MOVIE_SLICE_TOP_RATED].dataLoaded = true
+    });
+
+    builder.addCase(fetchActionMovies.fulfilled, (state, action) => {
+      state.movies[MOVIE_SLICE_ACTION].data = action.payload;
+      state.movies[MOVIE_SLICE_ACTION].dataLoaded = true
+    });
+
+    builder.addCase(fetchComedyMovies.fulfilled, (state, action) => {
+      state.movies[MOVIE_SLICE_COMEDY].data = action.payload;
+      state.movies[MOVIE_SLICE_COMEDY].dataLoaded = true
+    });
+  },
+});
+
+
+

@@ -2,121 +2,122 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-
+import { MOVIEDB_API_KEY } from "../AuthKeys";
 import axios from "axios";
 
-import { MovieReqUrls, TvReqUrls } from "../utils/MovieTvReqUrls";
+import {
+  MOVIEDB_CODE_ACTION, MOVIEDB_CODE_ADVENTURE, MOVIEDB_CODE_ANIMATION,
+  MOVIEDB_CODE_COMEDY, MOVIEDB_CODE_CRIME, MOVIEDB_CODE_DOCUMENTARY,
+  MOVIEDB_CODE_DRAMA, MOVIEDB_CODE_FAMILY, MOVIEDB_CODE_FANTASY,
+  MOVIEDB_CODE_HISTORY, MOVIEDB_CODE_HORROR, MOVIEDB_CODE_MUSIC,
+  MOVIEDB_CODE_MYSTERY, MOVIEDB_CODE_ROMANCE, MOVIEDB_CODE_SCIENCE_FICTION,
+  MOVIEDB_CODE_THRILLER, MOVIEDB_CODE_TV_MOVIE, MOVIEDB_CODE_WAR, MOVIEDB_CODE_WESTERN, MovieReqUrls
+} from "../utils/MovieTvReqUrls";
 
-const UPCOMING = 0
-const POPULAR = 1
-const TRENDING = 2
-const TOP_RATED = 3
-const ACTION = 4
-const COMEDY = 5
 
-// movies[UPCOMING] => movies[0] => 
-// movies[UPCOMING].data => movies[0].data
+
+//---------------------------------------------
+export const MOVIE_SLICE_CODE_TOP_RATED = 0
+export const MOVIE_SLICE_CODE_ACTION = 1
+export const MOVIE_SLICE_CODE_ADVENTURE = 2
+export const MOVIE_SLICE_CODE_ANIMATION = 3
+export const MOVIE_SLICE_CODE_COMEDY = 4
+export const MOVIE_SLICE_CODE_CRIME = 5
+export const MOVIE_SLICE_CODE_DOCUMENTARY = 6
+export const MOVIE_SLICE_CODE_DRAMA = 7
+export const MOVIE_SLICE_CODE_FAMILY = 8
+export const MOVIE_SLICE_CODE_FANTASY = 9
+export const MOVIE_SLICE_CODE_HISTORY = 10
+export const MOVIE_SLICE_CODE_HORROR = 11
+export const MOVIE_SLICE_CODE_MUSIC = 12
+export const MOVIE_SLICE_CODE_MYSTERY = 13
+export const MOVIE_SLICE_CODE_ROMANCE = 14
+export const MOVIE_SLICE_CODE_SCIENCE_FICTION = 15
+export const MOVIE_SLICE_CODE_TV_MOVIE = 16
+export const MOVIE_SLICE_CODE_THRILLER = 17
+export const MOVIE_SLICE_CODE_WAR = 18
+export const MOVIE_SLICE_CODE_WESTERN = 19
+
+
+// movies[MOVIE_SLICE_CODE_TOP_RATED].data => movies[0].data
 const initialState = {
   movies: [
-    { data: [], dataLoaded: false },
-    { data: [], dataLoaded: false },
-    { data: [], dataLoaded: false },
-    { data: [], dataLoaded: false },
-    { data: [], dataLoaded: false },
-    { data: [], dataLoaded: false }
-  ]
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+  ],
 };
 
-const getMovieDataFromUrl = async (url) => {
-  const movieData = []
+// movies[MOVIE_SLICE_CODE_TOP_RATED].nameString =>
+// MOVIE_SLICE_LOOK_UP_TABLE[0].nameString = "Top Rated"
+// nameString given to user in state
+// MOVIE_SLICE_CODE_TOP_RATED and MOVIEDB_CODE_ACTION used in MOVIEDB query
+const MOVIE_SLICE_LOOK_UP_TABLE = [
+  { nameString: "Top Rated", movieDbCode: MOVIE_SLICE_CODE_TOP_RATED },
+  { nameString: "Action", movieDbCode: MOVIEDB_CODE_ACTION },
+  { nameString: "Adventure", movieDbCode: MOVIEDB_CODE_ADVENTURE },
+  { nameString: "Animation", movieDbCode: MOVIEDB_CODE_ANIMATION },
+  { nameString: "Comedy", movieDbCode: MOVIEDB_CODE_COMEDY },
+  { nameString: "Crime", movieDbCode: MOVIEDB_CODE_CRIME },
+  { nameString: "Documentary", movieDbCode: MOVIEDB_CODE_DOCUMENTARY },
+  { nameString: "Drama", movieDbCode: MOVIEDB_CODE_DRAMA },
+  { nameString: "Family", movieDbCode: MOVIEDB_CODE_FAMILY },
+  { nameString: "Fantasy", movieDbCode: MOVIEDB_CODE_FANTASY },
+  { nameString: "History", movieDbCode: MOVIEDB_CODE_HISTORY },
+  { nameString: "Horror", movieDbCode: MOVIEDB_CODE_HORROR },
+  { nameString: "Music", movieDbCode: MOVIEDB_CODE_MUSIC },
+  { nameString: "Mystery", movieDbCode: MOVIEDB_CODE_MYSTERY },
+  { nameString: "Romance", movieDbCode: MOVIEDB_CODE_ROMANCE },
+  { nameString: "Science Fiction", movieDbCode: MOVIEDB_CODE_SCIENCE_FICTION },
+  { nameString: "TV Movie", movieDbCode: MOVIEDB_CODE_TV_MOVIE },
+  { nameString: "Thriller", movieDbCode: MOVIEDB_CODE_THRILLER },
+  { nameString: "War", movieDbCode: MOVIEDB_CODE_WAR },
+  { nameString: "Western", movieDbCode: MOVIEDB_CODE_WESTERN },
+]
+//---------------------------------------------
 
-  movieData = await axios.get(url)
-  return movieData
-}
+export const fetchMovieData = createAsyncThunk(
+  "Movie/ByGenre",
 
+  async (genre) => {
+    let queryString = ``
 
-export const fetchUpcomingMovies = createAsyncThunk(
-  "Movie/Upcoming",
-  async () => {
-    const data = await axios.get(MovieReqUrls.Upcoming);
-    return data;
+    if (genre === 0) {
+      queryString = `https://api.themoviedb.org/3/movie/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`
+    } else {
+      queryString = `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=${MOVIE_SLICE_LOOK_UP_TABLE[genre].movieDbCode}`
+    }
+
+    const resp = await axios.get(queryString);
+    const movieData = await resp.data.results
+    const retVal = { genre, movieData }
+    // console.log(queryString)
+    // console.log(retVal);
+    return retVal;
   }
 )
 
-export const fetchPopularMovies = createAsyncThunk(
-  "Movie/Popular",
-  async () => {
-    const data = await axios.get(MovieReqUrls.Popular);
-    return data;
-  }
-)
-
-export const fetchTrendingMovies = createAsyncThunk(
-  "Movie/Trending",
-  async () => {
-    const data = await axios.get(MovieReqUrls.Trending);
-    return data;
-  }
-)
-
-export const fetchTopRatedMovies = createAsyncThunk(
-  "Movie/TopRated",
-  async () => {
-    const data = await axios.get(MovieReqUrls.TopRated);
-    return data;
-  }
-)
-
-export const fetchActionMovies = createAsyncThunk(
-  "Movie/Action",
-  async () => {
-    const data = await axios.get(MovieReqUrls.Action);
-    return data;
-  }
-)
-
-export const fetchComedyMovies = createAsyncThunk(
-  "Movie/Comedy",
-  async () => {
-    const data = await axios.get(MovieReqUrls.Comedy);
-    return data;
-  }
-)
 
 export const MovieSlice = createSlice({
   name: "Movie",
   initialState,
 
   extraReducers: (builder) => {
-    builder.addCase(fetchUpcomingMovies.fulfilled, (state, action) => {
-      state.movies[UPCOMING].data = action.payload;
-      state.movies[UPCOMING].dataLoaded = true
+    builder.addCase(fetchMovieData.fulfilled, (state, action) => {
+      const storageLocation = action.payload.genre
+      state.movies[storageLocation].genreTitle = MOVIE_SLICE_LOOK_UP_TABLE[storageLocation].nameString
+      state.movies[storageLocation].data = action.payload.movieData;
+      state.movies[storageLocation].loaded = true
     });
 
-    builder.addCase(fetchPopularMovies.fulfilled, (state, action) => {
-      state.movies[POPULAR].data = action.payload;
-      state.movies[POPULAR].dataLoaded = true
-    });
 
-    builder.addCase(fetchTrendingMovies.fulfilled, (state, action) => {
-      state.movies[TRENDING].data = action.payload;
-      state.movies[TRENDING].dataLoaded = true
-    });
-
-    builder.addCase(fetchTopRatedMovies.fulfilled, (state, action) => {
-      state.movies[TOP_RATED].data = action.payload;
-      state.movies[TOP_RATED].dataLoaded = true
-    });
-
-    builder.addCase(fetchActionMovies.fulfilled, (state, action) => {
-      state.movies[ACTION].data = action.payload;
-      state.movies[ACTION].dataLoaded = true
-    });
-
-    builder.addCase(fetchComedyMovies.fulfilled, (state, action) => {
-      state.movies[COMEDY].data = action.payload;
-      state.movies[COMEDY].dataLoaded = true
-    });
   },
 });
 
