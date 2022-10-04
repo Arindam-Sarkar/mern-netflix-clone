@@ -5,7 +5,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchMovieData } from '../reduxSlices/movieSlice';
+import { fetchMovieData } from '../features/movie/movieSlice';
 
 
 const SliderViewRow = ({ movieSliceCode }) => {

@@ -10,7 +10,7 @@ import {
   MOVIE_SLICE_CODE_ROMANCE, MOVIE_SLICE_CODE_SCIENCE_FICTION,
   MOVIE_SLICE_CODE_THRILLER, MOVIE_SLICE_CODE_TV_MOVIE,
   MOVIE_SLICE_CODE_WAR, MOVIE_SLICE_CODE_WESTERN
-} from '../reduxSlices/movieSlice'
+} from '../features/movie/movieSlice'
 import './sliderviewgroup.css'
 import SliderViewRow from './SliderViewRow'
 

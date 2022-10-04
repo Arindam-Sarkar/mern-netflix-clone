@@ -2,7 +2,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import { MOVIEDB_API_KEY } from "../AuthKeys";
+import { MOVIEDB_API_KEY } from "../../AuthKeys";
 import axios from "axios";
 
 import {
@@ -12,7 +12,7 @@ import {
   MOVIEDB_CODE_HISTORY, MOVIEDB_CODE_HORROR, MOVIEDB_CODE_MUSIC,
   MOVIEDB_CODE_MYSTERY, MOVIEDB_CODE_ROMANCE, MOVIEDB_CODE_SCIENCE_FICTION,
   MOVIEDB_CODE_THRILLER, MOVIEDB_CODE_TV_MOVIE, MOVIEDB_CODE_WAR, MOVIEDB_CODE_WESTERN, MovieReqUrls
-} from "../utils/MovieTvReqUrls";
+} from "../../utils/MovieTvReqUrls";
 
 
 
