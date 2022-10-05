@@ -1,2 +1,0 @@
-export const FIREBASE_API_KEY = "AIzaSyCf8S6KMFSt4zZhb-NcUJFmLy3SfVWFbx4"
-export const MOVIEDB_API_KEY = "e30c3c86e2f40fd337574dc7455c9621"
