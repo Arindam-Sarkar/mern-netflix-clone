@@ -67,7 +67,6 @@ const MainScreen = ({ type }) => {
     }
   }, [tvShow.loaded])
 
-  console.log(mainScreenData)
   return (
 
     <div className="mainScreenMainCont">
