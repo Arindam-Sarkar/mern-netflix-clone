@@ -67,7 +67,7 @@ const MainScreen = ({ type }) => {
     }
   }, [tvShow.loaded])
 
-
+  console.log(mainScreenData)
   return (
 
     <div className="mainScreenMainCont">
@@ -110,6 +110,10 @@ const MainScreen = ({ type }) => {
                   ('mainScreenmIcons mainScreenmIconsSelected') : ('mainScreenmIcons')}
               />
             </div>
+          </div>
+
+          <div className='mainScreenDiscCont'>
+            <span className='mainScreenDisc'>{mainScreenData?.overview.substring(0, 300)}... </span>
           </div>
         </div >
       </div>

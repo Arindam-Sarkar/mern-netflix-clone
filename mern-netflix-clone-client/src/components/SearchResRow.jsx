@@ -17,9 +17,6 @@ const SearchResRow = ({ resultArr, rowNos }) => {
   }, [resultArr])
 
 
-
-
-  console.log(rowData)
   return (
     <div className='srrMainCont'>
       <div>
@@ -28,7 +25,6 @@ const SearchResRow = ({ resultArr, rowNos }) => {
           <div className='srrCont'>
             {
               rowData.data.map(data => {
-                console.log(data);
                 return (
 
                   <div className='srrRowItemCont'>

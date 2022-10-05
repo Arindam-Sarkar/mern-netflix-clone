@@ -32,7 +32,7 @@
 
 .mainScreenMiscCont {
   position: absolute;
-  top: 60vh;
+  top: 50vh;
   left: 7vw;
 
   /* border: 1px solid white; */
@@ -77,4 +77,21 @@
 
 .mainScreenmIconsSelected {
   color: #e40914;
+}
+
+.mainScreenDiscCont {
+  width: 70vw;
+  height: 20vh;
+
+  /* border: 1px solid red; */
+
+  position: absolute;
+  /* margin-left: 3vw; */
+  margin-top: -18vh;
+}
+
+.mainScreenDisc {
+  font-size: 30px;
+  font-weight: 600;
+  /* color: #e40914; */
 }

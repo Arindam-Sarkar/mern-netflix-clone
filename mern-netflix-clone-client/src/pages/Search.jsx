@@ -31,7 +31,6 @@ const Search = () => {
     const searchMovieDb = async () => {
       try {
         const resp = await axios.get(searchQuery)
-        console.log(resp);
         setSearchResults(
           {
             complete: true,

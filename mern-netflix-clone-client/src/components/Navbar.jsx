@@ -42,7 +42,7 @@ const Navbar = ({ pageScrolled }) => {
     signOut(auth).then(() => {
       navigate("/login")
     }).catch((error) => {
-      console.log(error)
+      // console.log(error)
     });
   }
 
@@ -60,7 +60,7 @@ const Navbar = ({ pageScrolled }) => {
   const searchNavHandler = (e) => {
     e.preventDefault()
 
-    console.log(searchIp.length)
+    // console.log(searchIp.length)
     if (showSearch) {
       if (searchIp.length > 0 && searchIp.length < 3) {
         setSearchWarning({
