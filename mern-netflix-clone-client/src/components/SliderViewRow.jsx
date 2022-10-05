@@ -22,7 +22,7 @@ const SliderViewRow = ({ movieSliceCode }) => {
   }, [movieSliceCode])
 
   useEffect(() => {
-    console.log(movie)
+    // console.log(movie)
     setUrlData(movie.data)
   }, [movie.loaded])
 

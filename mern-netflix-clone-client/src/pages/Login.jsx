@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const res = await signInWithEmailAndPassword(firebaseAuth, email, pass);
-      navigate("/netflix");
+      navigate("/movies");
     } catch (error) {
       console.log(error.code);
 
@@ -32,7 +32,7 @@ const Login = () => {
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (currentUser != null) {
-      navigate("/netflix");
+      navigate("/movies");
     }
   });
 

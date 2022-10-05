@@ -46,7 +46,7 @@ const Signup = () => {
   // it has then navigate to other page
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     if (currentUser) {
-      navigate("/netflix")
+      navigate("/movies")
     }
   });
 

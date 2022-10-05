@@ -105,7 +105,7 @@ export const fetchMovieData = createAsyncThunk(
 )
 
 
-export const MovieSlice = createSlice({
+export const movieSlice = createSlice({
   name: "Movie",
   initialState,
 

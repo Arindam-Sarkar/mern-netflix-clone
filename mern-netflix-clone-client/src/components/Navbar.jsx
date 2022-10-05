@@ -11,14 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import { async } from '@firebase/util';
 
 const navbarLinks = [
-  { name: "Home", path: "/" },
-  { name: "TV Shows", path: "thShows" },
-  { name: "Movies", path: "movies" },
-  { name: "Favourites", path: "myFavourites" },
+  // { name: "Home", path: "/" },
+  { name: "Movies", path: "/movies" },
+  { name: "TV Shows", path: "/tvShows" },
+  { name: "Favourites", path: "/favourites" },
 ]
 
 
-const Navbar = () => {
+const Navbar = ({ pageScrolled }) => {
   const navigate = useNavigate()
 
   const [showSearch, setShowSearch] = useState(false)
@@ -38,7 +38,7 @@ const Navbar = () => {
 
     const auth = getAuth();
     signOut(auth).then(() => {
-      navigate("/")
+      navigate("/login")
     }).catch((error) => {
       console.log(error)
     });
@@ -61,14 +61,14 @@ const Navbar = () => {
   // console.log(searchRef)
   return (
     <>
-      <div className='navMainCont'>
+      <div className={!pageScrolled ? ('navMainCont') : ('navMainCont navMainContBlack')}>
         {currentUser ?
           ( // User Present
             <>
               <div className='navCont'>
 
                 <img
-                  onClick={() => navigate("/")}
+                  onClick={() => navigate("/movies")}
                   src={logo}
                   alt="" />
 
