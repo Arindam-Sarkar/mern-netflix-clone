@@ -1,4 +1,4 @@
-.MainScreenMainCont {
+.mainScreenMainCont {
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -7,7 +7,7 @@
   z-index: 1;
 }
 
-.MainScreenCont {
+.mainScreenCont {
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -16,10 +16,65 @@
   z-index: 1;
 }
 
-.MainScreenImg {
+.mainScreenImg {
   width: 100%;
   height: 90%;
   z-index: 1;
 
   overflow: hidden;
+}
+
+.mainScreenTitle {
+  margin-top: -30vh;
+  margin-left: 7vw;
+}
+
+
+.mainScreenMiscCont {
+  position: absolute;
+  top: 60vh;
+  left: 7vw;
+
+  /* border: 1px solid white; */
+  width: 40vw;
+  height: 25vh;
+}
+
+.mainScreenName {
+  margin-top: 3px;
+  margin-left: 5px;
+  font-size: 45px;
+}
+
+.mainScreenmCont {
+  margin-top: 7px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: 5px;
+  margin-left: 5px;
+
+  width: 100%;
+  height: 100%;
+}
+
+.mainScreenmContLeft {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
+
+.mainScreenmContRight {
+  display: flex;
+  justify-content: flex-end;
+  width: 25%;
+  margin-right: 25px;
+}
+
+.mainScreenmIcons {
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.mainScreenmIconsSelected {
+  color: #e40914;
 }

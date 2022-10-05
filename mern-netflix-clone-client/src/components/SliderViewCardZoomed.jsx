@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import './sliderViewCardZoomed.css'
 import { IoPlayCircleSharp } from "react-icons/io5";
-import { AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus, AiTwotoneHeart } from "react-icons/ai";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
@@ -19,9 +19,9 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
 
   useEffect(() => {
     if (type === "movie") {
-      setTitle(cardData.original_title)
+      setTitle(cardData.title)
     } else if (type === "tv") {
-      setTitle(cardData.original_name)
+      setTitle(cardData.name)
     }
   }, [cardData])
 
@@ -61,7 +61,7 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
               ('svczmIcons svczmIconsSelected') : ('svczmIcons')}
           />
 
-          <AiOutlinePlus
+          <AiTwotoneHeart
             onMouseEnter={() => iconFocussedHandler(3, true)}
             onMouseLeave={() => iconFocussedHandler(3, false)}
             className={iconFocussed[3] ?
@@ -70,12 +70,12 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
         </div>
 
         <div className='svczmContRight'>
-          <BiChevronDown
+          {/* <BiChevronDown
             onMouseEnter={() => iconFocussedHandler(4, true)}
             onMouseLeave={() => iconFocussedHandler(4, false)}
             className={iconFocussed[4] ?
               ('svczmIcons svczmIconsSelected') : ('svczmIcons')}
-          />
+          /> */}
         </div>
 
       </div>

@@ -101,6 +101,27 @@
   font-size: 18px;
 }
 
+.navSrchCont .navSrchWarning {
+  margin: 0;
+  padding: 0;
+
+  height: 40%;
+  width: 300px;
+
+  background-color: transparent;
+
+  position: absolute;
+  right: 140px;
+  padding-left: 10px;
+  top: 10vh;
+
+  outline: none;
+  border-radius: 5px;
+  color: #e40914;
+  font-weight: 500;
+  font-size: 18px;
+}
+
 .navSrchCont .navSrchInputInvisible {
   visibility: hidden;
 }

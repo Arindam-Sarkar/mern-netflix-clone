@@ -2,13 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import './navbar.css'
 import logo from '../assets/logo.png'
 import { getAuth, signOut } from "firebase/auth";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
 import { firebaseAuth } from '../utils/firebaseConfig';
 import { FaSearch } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri"
 
 import { useNavigate } from 'react-router-dom';
-import { async } from '@firebase/util';
+import Search from '../pages/Search'
 
 const navbarLinks = [
   // { name: "Home", path: "/" },
@@ -22,7 +22,9 @@ const Navbar = ({ pageScrolled }) => {
   const navigate = useNavigate()
 
   const [showSearch, setShowSearch] = useState(false)
+  const [searchWarning, setSearchWarning] = useState({ alert: false, msg: "" })
   const [inputHover, setInputHover] = useState(false);
+  const [searchIp, setSearchIp] = useState('')
 
   const searchRef = useRef()
 
@@ -49,9 +51,39 @@ const Navbar = ({ pageScrolled }) => {
     navigate("/login")
   }
 
-  // useEffect(() => {
-  //   searchRef.current.focus()
-  // })
+
+  const searchIpHandler = (e) => {
+    e.preventDefault()
+    setSearchIp(e.target.value);
+  }
+
+  const searchNavHandler = (e) => {
+    e.preventDefault()
+
+    console.log(searchIp.length)
+    if (showSearch) {
+      if (searchIp.length > 0 && searchIp.length < 3) {
+        setSearchWarning({
+          alert: true,
+          msg: 'Search term must be atleast 3 letters'
+        })
+      }
+      if (searchIp.length >= 3) {
+        setSearchWarning({
+          alert: false,
+          msg: ''
+        })
+
+        let searchIpTmp = searchIp
+
+        setShowSearch(false)
+        setSearchWarning({ alert: false, msg: '' })
+        setInputHover(false)
+        setSearchIp('')
+        navigate(`/search?${searchIpTmp}`)
+      }
+    }
+  }
 
   showSearch ?
     (inputClassName = "navSrchInput") :
@@ -83,7 +115,10 @@ const Navbar = ({ pageScrolled }) => {
                   }
                 </div>
 
-                <div className='navSrchCont'>
+
+
+
+                <form className='navSrchCont'>
                   <input
                     ref={searchRef}
                     className={inputClassName}
@@ -98,7 +133,14 @@ const Navbar = ({ pageScrolled }) => {
                       setShowSearch(false);
                       setInputHover(false);
                     }}
+
+                    onChange={(e) => searchIpHandler(e)}
                   />
+
+                  {(searchWarning.alert && showSearch) ?
+                    (<h2 className='navSrchWarning'>{searchWarning.msg}</h2>)
+                    : (<></>)}
+
 
                   <button
                     className='navSrchBtn'
@@ -107,10 +149,14 @@ const Navbar = ({ pageScrolled }) => {
                       if (!inputHover) {
                         setShowSearch(false);
                       }
-                    }}>
+                    }}
+                    onClick={(e) => searchNavHandler(e)}
+                  >
+
+
                     < FaSearch />
                   </button>
-                </div>
+                </form>
 
 
                 <button

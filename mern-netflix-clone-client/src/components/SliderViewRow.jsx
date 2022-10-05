@@ -31,6 +31,7 @@ const SliderViewRow = ({ movieSliceCode, type }) => {
     if (type === "movie") {
       setUrlData(movie)
       setUrlDataLoaded(true)
+      SetUrlDataFirstElement(0)
     }
   }, [movie.loaded])
 
@@ -38,6 +39,7 @@ const SliderViewRow = ({ movieSliceCode, type }) => {
     if (type === "tv") {
       setUrlData(tvShow)
       setUrlDataLoaded(true)
+      SetUrlDataFirstElement(0)
     }
   }, [tvShow.loaded])
 
@@ -54,13 +56,13 @@ const SliderViewRow = ({ movieSliceCode, type }) => {
   const handleRightSlide = (e) => {
     e.preventDefault()
     let temp = urlDataFirstElement
-    if (temp < urlData.length - 5) {
+    if (temp < urlData?.data.length - 5) {
       temp++
       SetUrlDataFirstElement(temp)
     }
   }
 
-  console.log(urlData);
+  // console.log(urlData);
   return (
     <div className="svrMainComp">
       <div className="svrComp">
