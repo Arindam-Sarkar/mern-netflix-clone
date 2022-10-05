@@ -4,3 +4,4 @@
 /mern-netflix-clone-client/node_modules
 /mern-netflix-clone-ui/node_modules
 
+/mern-netflix-clone-client/src/AuthKeys.js
