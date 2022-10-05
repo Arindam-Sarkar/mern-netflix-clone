@@ -53,6 +53,18 @@ const initialState = {
     { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
     { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
   ],
+  tvShows: [
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+    { genreTitle: '', data: [], loaded: false }, { genreTitle: '', data: [], loaded: false },
+  ],
 };
 
 // movies[MOVIE_SLICE_CODE_TOP_RATED].nameString =>
@@ -98,12 +110,28 @@ export const fetchMovieData = createAsyncThunk(
     const resp = await axios.get(queryString);
     const movieData = await resp.data.results
     const retVal = { genre, movieData }
-    // console.log(queryString)
-    // console.log(retVal);
     return retVal;
   }
 )
 
+export const fetchTvShowData = createAsyncThunk(
+  "TvShow/ByGenre",
+
+  async (genre) => {
+    let queryString = ``
+
+    if (genre === 0) {
+      queryString = `https://api.themoviedb.org/3/tv/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`
+    } else {
+      queryString = `https://api.themoviedb.org/3/discover/tv?api_key=${MOVIEDB_API_KEY}&with_genres=${MOVIE_SLICE_LOOK_UP_TABLE[genre].movieDbCode}`
+    }
+
+    const resp = await axios.get(queryString);
+    const movieData = await resp.data.results
+    const retVal = { genre, movieData }
+    return retVal;
+  }
+)
 
 export const movieSlice = createSlice({
   name: "Movie",
@@ -115,6 +143,13 @@ export const movieSlice = createSlice({
       state.movies[storageLocation].genreTitle = MOVIE_SLICE_LOOK_UP_TABLE[storageLocation].nameString
       state.movies[storageLocation].data = action.payload.movieData;
       state.movies[storageLocation].loaded = true
+    });
+
+    builder.addCase(fetchTvShowData.fulfilled, (state, action) => {
+      const storageLocation = action.payload.genre
+      state.tvShows[storageLocation].genreTitle = MOVIE_SLICE_LOOK_UP_TABLE[storageLocation].nameString
+      state.tvShows[storageLocation].data = action.payload.movieData;
+      state.tvShows[storageLocation].loaded = true
     });
 
 

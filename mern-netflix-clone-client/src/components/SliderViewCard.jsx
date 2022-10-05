@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './sliderViewCard.css'
 import SliderViewCardZoomed from './SliderViewCardZoomed'
 
-const SliderViewCard = ({ cardData }) => {
+const SliderViewCard = ({ cardData, type }) => {
 
   const [svcFocussed, setSvcFocussed] = useState(false)
 
@@ -21,7 +21,7 @@ const SliderViewCard = ({ cardData }) => {
         {svcFocussed ?
           (
             <>
-              < SliderViewCardZoomed cardData={cardData} />
+              < SliderViewCardZoomed cardData={cardData} type={type} />
               <img className='svcImage'
                 src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
                 alt="No Image" />

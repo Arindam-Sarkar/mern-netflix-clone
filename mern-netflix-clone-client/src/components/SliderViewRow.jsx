@@ -5,26 +5,41 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import axios from 'axios'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchMovieData } from '../features/movie/movieSlice';
+import { fetchMovieData, fetchTvShowData } from '../features/movie/movieSlice';
 
 
-const SliderViewRow = ({ movieSliceCode }) => {
-  const [urlData, setUrlData] = useState([])
+const SliderViewRow = ({ movieSliceCode, type }) => {
+  const [urlData, setUrlData] = useState()
+  const [urlDataLoaded, setUrlDataLoaded] = useState(false)
   const [urlDataFirstElement, SetUrlDataFirstElement] = useState(0)
-  // const [arrowVisible, SetArrowVisible] = useState(false)
+
 
   const dispatch = useDispatch();
 
   const movie = useSelector((state) => state.movie.movies[movieSliceCode]);
+  const tvShow = useSelector((state) => state.movie.tvShows[movieSliceCode]);
 
   useEffect(() => {
-    dispatch(fetchMovieData(movieSliceCode));
+    if (type === "movie") {
+      dispatch(fetchMovieData(movieSliceCode));
+    } else if (type === "tv") {
+      dispatch(fetchTvShowData(movieSliceCode));
+    }
   }, [movieSliceCode])
 
   useEffect(() => {
-    // console.log(movie)
-    setUrlData(movie.data)
+    if (type === "movie") {
+      setUrlData(movie)
+      setUrlDataLoaded(true)
+    }
   }, [movie.loaded])
+
+  useEffect(() => {
+    if (type === "tv") {
+      setUrlData(tvShow)
+      setUrlDataLoaded(true)
+    }
+  }, [tvShow.loaded])
 
 
   const handleLeftSlide = (e) => {
@@ -45,11 +60,12 @@ const SliderViewRow = ({ movieSliceCode }) => {
     }
   }
 
+  console.log(urlData);
   return (
     <div className="svrMainComp">
       <div className="svrComp">
 
-        <h1 className="svrH1"> {movie.genreTitle} </h1>
+        <h1 className="svrH1"> {urlData?.genreTitle} </h1>
 
         <div className='svrAL' onClick={(e) => handleLeftSlide(e)}>
           <AiOutlineLeft />
@@ -58,8 +74,8 @@ const SliderViewRow = ({ movieSliceCode }) => {
         <div className='svrSliderCont'>
           <div className='svrSlider'>
             {
-              movie.loaded ?
-                (urlData.slice(urlDataFirstElement).map((data, i) => <SliderViewCard key={data.id} cardData={data} />)) :
+              urlDataLoaded ?
+                (urlData.data.slice(urlDataFirstElement).map((data, i) => <SliderViewCard key={data.id} cardData={data} type={type} />)) :
                 (<h1 className="svrH1">Data Not Avilable</h1>)
             }
           </div>

@@ -6,7 +6,8 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
 
-const SliderViewCardZoomed = ({ cardData }) => {
+const SliderViewCardZoomed = ({ cardData, type }) => {
+  const [title, setTitle] = useState('')
   const [iconFocussed, setIconFocussed] =
     useState([false, false, false, false, false])
 
@@ -15,6 +16,14 @@ const SliderViewCardZoomed = ({ cardData }) => {
     iconFocussedTemp[setLocation] = setState
     setIconFocussed(iconFocussedTemp)
   }
+
+  useEffect(() => {
+    if (type === "movie") {
+      setTitle(cardData.original_title)
+    } else if (type === "tv") {
+      setTitle(cardData.original_name)
+    }
+  }, [cardData])
 
   return (
     < div className='svczImageCont' >
@@ -26,7 +35,7 @@ const SliderViewCardZoomed = ({ cardData }) => {
         src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
         alt="No Image" />
 
-      <h4 className='svczName'>{cardData.original_title}</h4>
+      <h4 className='svczName'>{title}</h4>
       <div className='svczmCont'>
 
         <div className='svczmContLeft'>
