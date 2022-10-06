@@ -6,7 +6,7 @@ import {
   userAddFavourites,
   userRemoveFavourites,
   userGetFavourites
-} from "../controllers/UserController.js";
+} from "../controllers/userController.js";
 
 import { verifyUser, verifyAdmin } from "../utils/veryfyToken.js";
 

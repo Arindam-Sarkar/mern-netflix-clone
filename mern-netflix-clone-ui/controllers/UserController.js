@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { createErrorMsg } from '../utils/Errors.js'
+import { createErrorMsg } from '../utils/errorResponse.js'
 
-import userModel from '../models/UserModel.js'
+import userModel from '../models/userModel.js'
 
 
 

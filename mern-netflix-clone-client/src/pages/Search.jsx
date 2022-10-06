@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { MOVIEDB_API_KEY } from "../AuthKeys"
+import { MOVIEDB_API_KEY } from "../authKeys"
 
 import SearchResRow from '../components/SearchResRow'
 import Navbar from '../components/Navbar'

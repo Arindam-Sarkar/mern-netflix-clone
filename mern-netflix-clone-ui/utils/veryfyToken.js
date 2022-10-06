@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { createErrorMsg } from "./Errors.js";
+import { createErrorMsg } from "./errorResponse.js";
 
 const veryfyToken = (req, res, next) => {
 

@@ -1,4 +1,4 @@
-import { MOVIEDB_API_KEY } from "../AuthKeys";
+import { MOVIEDB_API_KEY } from "../authKeys";
 
 export const MovieReqUrls = {
   TopRated: `https://api.themoviedb.org/3/movie/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`,
