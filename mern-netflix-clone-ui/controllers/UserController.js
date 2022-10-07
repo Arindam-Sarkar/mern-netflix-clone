@@ -7,9 +7,7 @@ import userModel from '../models/userModel.js'
 
 
 export const userRegister = async (req, res, next) => {
-
   try {
-    console.log(req.body.password)
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
@@ -20,16 +18,19 @@ export const userRegister = async (req, res, next) => {
     })
 
     const newUserResp = await newUser.save()
+    const { password, isAdmin, createdAt, updatedAt, __v, ...remaining } = newUserResp._doc
 
-    return res.status(200).send("User has been created")
+    return res.status(200).send(remaining)
   } catch (error) {
     return next(error)
   }
 }
 
 export const userLogin = async (req, res, next) => {
+
   try {
-    const user = await userModel.findOne({ username: req.body.username })
+    //search the user by email address
+    const user = await userModel.findOne({ email: req.body.email })
     if (!user) {
       return next(createErrorMsg(404, "User not found !"))
     }
@@ -41,47 +42,47 @@ export const userLogin = async (req, res, next) => {
 
     // Create a token that will be given to the user
     const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_KEY)
-    const { password, isAdmin, ...details } = user._doc
+    const { password, isAdmin, createdAt, updatedAt, __v, ...remaining } = user._doc
 
     // Parse the token inside a cookie and send it to the user
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
-      .json({ details })
+      .json(remaining)
   } catch (error) {
     return next(error)
   }
 }
 
-export const userAddFavourites = async (req, res) => {
+export const userAddFavourites = async (req, res, next) => {
   try {
     const updatedUser = await userModel.findByIdAndUpdate(req.body.userId,
-      { $addToSet: { favourites: req.body.movieId } }, { new: true }
+      { $push: { favourites: req.body.movieId } }, { new: true }
     )
     console.log(updatedUser);
-    res.status(200).json(updatedUser)
+    return res.status(200).json(updatedUser)
   } catch (err) {
-    next(err)
+    return next(err)
   }
 }
 
-export const userRemoveFavourites = async (req, res) => {
+export const userRemoveFavourites = async (req, res, next) => {
   try {
     const updatedUser = await userModel.findByIdAndUpdate(req.body.userId,
       { $pull: { favourites: req.body.movieId } }, { new: true }
     )
-    res.status(200).json(updatedUser)
+    return res.status(200).json(updatedUser)
   } catch (err) {
-    next(err)
+    return next(err)
   }
 }
 
 
-export const userGetFavourites = async (req, res) => {
+export const userGetFavourites = async (req, res, next) => {
   try {
     const userData = await userModel.findById(req.body.userId)
     const { favourites } = userData
-    res.status(200).json({ "favourites": favourites })
+    return res.status(200).json({ "favourites": favourites })
   } catch (error) {
     return next(error)
   }

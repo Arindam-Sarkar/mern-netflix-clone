@@ -26,7 +26,8 @@ const TvShows = () => {
 
   return (
     <div className='tvShowsMainCont'>
-      <Navbar pageScrolled={pageScrolled} />
+      <Navbar pageScrolled={pageScrolled} parentPage={'TvShows'} />
+
       <MainScreen type={"tv"} />
 
       <div>

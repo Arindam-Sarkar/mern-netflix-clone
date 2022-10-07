@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 const Favourites = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar parentPage={'Favourites'} />
 
     </div>
   )

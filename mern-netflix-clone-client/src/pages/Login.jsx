@@ -1,46 +1,62 @@
 import React, { useEffect, useState } from 'react'
 import './login.css'
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from '../utils/firebaseConfig';
 import { useNavigate } from "react-router-dom";
 import BackgroundImage from '../components/BackgroundImage';
 import Navbar from '../components/Navbar';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { saveUserAuth } from '../features/auth/authSlice.js'
+
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState("")
   const [pass, setPass] = useState("")
   const [showWrongCreds, setShowWrongCreds] = useState(false)
 
-  // const [navigateEffect, setnavigateEffect] = useState(false)
+  const userAuth = useSelector((state) => state.auth.userAuth);
 
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const loginHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const res = await signInWithEmailAndPassword(firebaseAuth, email, pass);
-      navigate("/movies");
-    } catch (error) {
-      console.log(error.code);
+      const credentialJson = {
+        "email": email,
+        "password": pass
+      }
 
-      setShowWrongCreds(true)
+      const res = await axios.post("/user/login", credentialJson);
+
+      if (res.data) {
+        dispatch(saveUserAuth(res.data))
+      } else {
+        dispatch(saveUserAuth({}))
+      }
+
+    } catch (error) {
+      if (error.response.data.message?.
+        match('User not found !')) {
+        setShowWrongCreds(true)
+      }
       setEmail("")
       setPass("")
     }
   }
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser != null) {
+  useEffect(() => {
+    if (userAuth?._id) {
+      // console.log(userAuth);
       navigate("/movies");
     }
-  });
-
+  }, [userAuth?._id])
 
   return (
     <>
       <BackgroundImage />
-      <Navbar />
+      <Navbar parentPage={'Login'} />
       <div className='loginMainContainer'>
 
         <div className='loginContainer'>

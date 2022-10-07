@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+    // unique: false,
   },
   email: {
     type: String,
@@ -14,19 +14,23 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    // unique: false,
   },
   isAdmin: {
     type: Boolean,
     default: false,
+    // required: false,
+    // unique: false,
   },
   favourites: {
     type: Array,
-    default: []
+    default: [],
+    // required: false,
+    // unique: false,
   }
-},
-  {
-    timestamps: true,
-    collection: 'userInfo'
-  })
+}, {
+  timestamps: true,
+  collection: 'users'
+})
 
 export default mongoose.model("User", UserSchema);

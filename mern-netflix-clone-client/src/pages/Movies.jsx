@@ -27,7 +27,7 @@ const Movies = () => {
   return (
     <div className='moviesMainCont'>
 
-      <Navbar pageScrolled={pageScrolled} />
+      <Navbar pageScrolled={pageScrolled} parentPage={'Movies'} />
       <MainScreen type={"movie"} />
 
       <div>

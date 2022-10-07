@@ -2,48 +2,35 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "../../utils/firebaseConfig";
+import axios from "axios";
 
+export const AUTH_STATUS_SUCCESS = 1
+export const AUTH_STATUS_FAIL = 2
+export const AUTH_STATUS_PENDING = 3
 
 const initialState = {
-  authObj: undefined
+  userAuth: JSON.parse(localStorage.getItem("userAuth")) || null
 };
-
-export const fetchAuth = createAsyncThunk(
-  "Auth/GetAuth",
-  async (credential) => {
-
-    try {
-      const retVal = await signInWithEmailAndPassword(firebaseAuth,
-        credential.email,
-        credential.pass);
-      console.log(retVal.user)
-      return retVal.user;
-    } catch (error) {
-      // console.log(error)
-      return error
-    }
-  }
-)
-
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
+  reducers: {
+    saveUserAuth: (state, action) => {
+      // Save it in local storage first
+      localStorage.setItem("userAuth", JSON.stringify(action.payload));
+      state.userAuth = action.payload
+    },
+    deleteUserAuth: (state, action) => {
+      console.log("deleteUserAuth");
 
-  extraReducers: (builder) => {
-    builder.addCase(fetchAuth.fulfilled, (state, action) => {
-      // console.log(action.payload);
-
-      // console.log(action.payload);
-      // state.authObj[0] = action.payload
-    });
-    builder.addCase(fetchAuth.rejected, (state, action) => {
-      // state.authObj[0] = action.payload
-    });
-  },
+      const blankObj = {}
+      // Clear the local storage
+      localStorage.setItem("userAuth", JSON.stringify(blankObj));
+      state.userAuth = blankObj
+    }
+  }
 });
 
-
-
+export const { saveUserAuth, deleteUserAuth } = authSlice.actions
+export default authSlice.reducer

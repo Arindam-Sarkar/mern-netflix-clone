@@ -52,7 +52,8 @@ const Search = () => {
   // console.log(searchResult)
   return (
     <div >
-      <Navbar pageScrolled={pageScrolled} />
+      <Navbar pageScrolled={pageScrolled} parentPage={'Search'} />
+
       <div className='srchMainCont'>
         <div className='srchCont'>
           {(searchResult.complete === true &&

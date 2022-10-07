@@ -2,13 +2,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import './navbar.css'
 import logo from '../assets/logo.png'
 import { getAuth, signOut } from "firebase/auth";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { firebaseAuth } from '../utils/firebaseConfig';
 import { FaSearch } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri"
 
 import { useNavigate } from 'react-router-dom';
-import Search from '../pages/Search'
+import { useSelector, useDispatch } from 'react-redux';
+import { saveUserAuth, deleteUserAuth } from '../features/auth/authSlice.js'
+
 
 const navbarLinks = [
   // { name: "Home", path: "/" },
@@ -18,39 +20,56 @@ const navbarLinks = [
 ]
 
 
-const Navbar = ({ pageScrolled }) => {
-  const navigate = useNavigate()
-
+const Navbar = ({ pageScrolled, parentPage }) => {
+  const [user, setUser] = useState({})
   const [showSearch, setShowSearch] = useState(false)
   const [searchWarning, setSearchWarning] = useState({ alert: false, msg: "" })
   const [inputHover, setInputHover] = useState(false);
   const [searchIp, setSearchIp] = useState('')
 
+  const userAuth = useSelector((state) => state.auth.userAuth);
+
   const searchRef = useRef()
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
 
-  let inputClassName = "navSrchInput"
+  console.log(userAuth)
+  if (userAuth?._id) {
+    if (!user?._id) {
+      setUser(userAuth);
+    }
+  }
 
+  // useEffect(() => {
+  //   if (userAuth._id) {
+  //     setUser(userAuth);
+  //     console.log(user)
+  //   } else {
+  //     navigate("/login")
+  //   }
+  // }, [userAuth?.id])
 
-  // Check if the user is logged in
-  const currentUser = getAuth().currentUser;
 
   const logoutNavHandler = async (e) => {
     e.preventDefault()
+    const temp = {}
 
-    const auth = getAuth();
-    signOut(auth).then(() => {
-      navigate("/login")
-    }).catch((error) => {
-      // console.log(error)
-    });
-  }
+    dispatch(deleteUserAuth())
+    setUser(temp)
 
-  const signInNavHandler = (e) => {
-    e.preventDefault()
     navigate("/login")
   }
 
+  const signUpNavHandler = (e) => {
+    e.preventDefault()
+    navigate("/signup")
+  }
+
+  const loginNavHandler = (e) => {
+    e.preventDefault()
+    navigate("/login")
+  }
 
   const searchIpHandler = (e) => {
     e.preventDefault()
@@ -60,7 +79,6 @@ const Navbar = ({ pageScrolled }) => {
   const searchNavHandler = (e) => {
     e.preventDefault()
 
-    // console.log(searchIp.length)
     if (showSearch) {
       if (searchIp.length > 0 && searchIp.length < 3) {
         setSearchWarning({
@@ -85,6 +103,8 @@ const Navbar = ({ pageScrolled }) => {
     }
   }
 
+  let inputClassName = "navSrchInput"
+
   showSearch ?
     (inputClassName = "navSrchInput") :
     (inputClassName = "navSrchInput navSrchInputInvisible")
@@ -94,7 +114,7 @@ const Navbar = ({ pageScrolled }) => {
   return (
     <>
       <div className={!pageScrolled ? ('navMainCont') : ('navMainCont navMainContBlack')}>
-        {currentUser ?
+        {user?._id ?
           ( // User Present
             <>
               <div className='navCont'>
@@ -167,17 +187,33 @@ const Navbar = ({ pageScrolled }) => {
               </div>
             </>)
           :
-          ( // User Not Present
-            <>
+          ((parentPage === "Login") ?
+            (<>
               <div className='navCont'>
                 <img src={logo} alt="" />
                 <button
                   className='navButton2'
-                  onClick={(e) => signInNavHandler(e)}>
+                  onClick={(e) => signUpNavHandler(e)}>
+                  Sign Up
+                </button>
+              </div>
+            </>) :
+            (<>
+              <div className='navCont'>
+                <img src={logo} alt="" />
+                <button
+                  className='navButton2'
+                  onClick={(e) => loginNavHandler(e)}>
                   Log In
                 </button>
               </div>
-            </>)
+            </>))
+
+
+
+
+          // User Not Present
+
         }
       </div>
     </>
