@@ -7,16 +7,24 @@ import SearchResRow from '../components/SearchResRow'
 import Navbar from '../components/Navbar'
 import './search.css'
 
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { saveUserAuth } from '../features/auth/authSlice.js'
+
+
+
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchPage, setSearchPage] = useState(1)
   const [pageScrolled, setPageScrolled] = useState(false)
 
-
   const [searchResult, setSearchResults] = useState({
     complete: false,
     result: []
   })
+
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const navigate = useNavigate()
 
   const location = useLocation()
 
@@ -46,6 +54,12 @@ const Search = () => {
     searchMovieDb()
   }, [searchTerm, searchPage])
 
+
+  useEffect(() => {
+    if (!userAuth?._id) {
+      navigate('/login')
+    }
+  }, [userAuth?._id])
 
   window.onscroll = () => {
     setPageScrolled(window.pageYOffset === 0 ? false : true);

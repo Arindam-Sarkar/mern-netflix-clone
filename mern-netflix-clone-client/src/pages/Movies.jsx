@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import './movies.css'
 import MainScreen from '../components/MainScreen'
+
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { saveUserAuth } from '../features/auth/authSlice.js'
+
 
 import {
   MOVIE_SLICE_CODE_TOP_RATED, MOVIE_SLICE_CODE_ACTION,
@@ -19,10 +24,19 @@ import SliderViewRow from '../components/SliderViewRow'
 
 const Movies = () => {
   const [pageScrolled, setPageScrolled] = useState(false)
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const navigate = useNavigate()
+
 
   window.onscroll = () => {
     setPageScrolled(window.pageYOffset === 0 ? false : true);
   };
+
+  useEffect(() => {
+    if (!userAuth?._id) {
+      navigate('/login')
+    }
+  }, [userAuth?._id])
 
   return (
     <div className='moviesMainCont'>
