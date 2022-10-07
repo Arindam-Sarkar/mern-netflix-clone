@@ -22,8 +22,6 @@ export const authSlice = createSlice({
       state.userAuth = action.payload
     },
     deleteUserAuth: (state, action) => {
-      console.log("deleteUserAuth");
-
       const blankObj = {}
       // Clear the local storage
       localStorage.setItem("userAuth", JSON.stringify(blankObj));

@@ -3,7 +3,6 @@ import './navbar.css'
 import logo from '../assets/logo.png'
 import { getAuth, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
-import { firebaseAuth } from '../utils/firebaseConfig';
 import { FaSearch } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri"
 
@@ -34,7 +33,7 @@ const Navbar = ({ pageScrolled, parentPage }) => {
   const dispatch = useDispatch()
 
 
-  console.log(userAuth)
+  // console.log(userAuth)
   if (userAuth?._id) {
     if (!user?._id) {
       setUser(userAuth);
