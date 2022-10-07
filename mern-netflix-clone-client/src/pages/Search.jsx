@@ -31,12 +31,14 @@ const Search = () => {
     const searchMovieDb = async () => {
       try {
         const resp = await axios.get(searchQuery)
+
         setSearchResults(
           {
             complete: true,
             result: resp.data.results
           }
         )
+
       } catch (err) {
         // console.log(err);
       }
@@ -49,7 +51,6 @@ const Search = () => {
     setPageScrolled(window.pageYOffset === 0 ? false : true);
   };
 
-  // console.log(searchResult)
   return (
     <div >
       <Navbar pageScrolled={pageScrolled} parentPage={'Search'} />
@@ -58,25 +59,17 @@ const Search = () => {
         <div className='srchCont'>
           {(searchResult.complete === true &&
             searchResult.result[0] === undefined) ?
-            (<h1 className='srchh1'>Data not Avilable</h1>) :
+            (
+              <h1 className='srchh1'>Data not Avilable</h1>
+            ) :
             (
               <>
-                <SearchResRow resultArr={searchResult} rowNos={0} />
-                <SearchResRow resultArr={searchResult} rowNos={1} />
-                <SearchResRow resultArr={searchResult} rowNos={2} />
-                <SearchResRow resultArr={searchResult} rowNos={3} />
+                <SearchResRow resultArr={searchResult} />
               </>
             )
-
           }
-
         </div>
-
       </div>
-
-
-
-
     </div >
   )
 }

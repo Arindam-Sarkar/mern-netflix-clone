@@ -58,14 +58,12 @@
   display: flex;
   justify-content: space-between;
   width: 50%;
+
+  position: absolute;
+  bottom: 0.5vh;
 }
 
-.svczmContRight {
-  display: flex;
-  justify-content: flex-end;
-  width: 25%;
-  margin-right: 25px;
-}
+
 
 .svczmIcons {
   font-size: 25px;

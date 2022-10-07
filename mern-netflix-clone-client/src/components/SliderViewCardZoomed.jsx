@@ -35,7 +35,7 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
         src={`https://image.tmdb.org/t/p/w500/${cardData?.backdrop_path}`}
         alt="No Image" />
 
-      <h4 className='svczName'>{title}</h4>
+      <h4 className='svczName'>{title.substring(0, 45)} ...</h4>
       <div className='svczmCont'>
 
         <div className='svczmContLeft'>
@@ -68,16 +68,6 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
               ('svczmIcons svczmIconsSelected') : ('svczmIcons')}
           />
         </div>
-
-        <div className='svczmContRight'>
-          {/* <BiChevronDown
-            onMouseEnter={() => iconFocussedHandler(4, true)}
-            onMouseLeave={() => iconFocussedHandler(4, false)}
-            className={iconFocussed[4] ?
-              ('svczmIcons svczmIconsSelected') : ('svczmIcons')}
-          /> */}
-        </div>
-
       </div>
     </div >
   )

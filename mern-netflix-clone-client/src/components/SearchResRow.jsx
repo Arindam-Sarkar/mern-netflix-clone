@@ -1,50 +1,46 @@
 import React, { useState, useEffect } from 'react'
+import { IoPlayCircleSharp } from "react-icons/io5";
+import { AiOutlinePlus, AiTwotoneHeart } from "react-icons/ai";
+import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
+import { BiChevronDown } from "react-icons/bi";
+import { BsCheck } from "react-icons/bs";
+import SliderViewCardZoomed from './SliderViewCardZoomed'
 import './searchResRow.css'
 
 
-const SearchResRow = ({ resultArr, rowNos }) => {
+const SearchResRow = ({ resultArr }) => {
+  const [iconFocussed, setIconFocussed] = useState([false, false, false, false, false])
   const [rowData, SetRowData] = useState({ loaded: false, data: [] })
 
-  useEffect(() => {
-    if (resultArr.complete === true) {
-      const initialVal = rowNos * 5;
-      let arrTmp = []
-      for (let i = initialVal; i < (initialVal + 5); i++) {
-        arrTmp.push(resultArr.result[i])
-      }
-      SetRowData({ loaded: true, data: arrTmp })
-    }
-  }, [resultArr])
 
+  const iconFocussedHandler = (setLocation, setState) => {
+    const iconFocussedTemp = [...iconFocussed]
+
+    iconFocussedTemp[setLocation] = setState
+    setIconFocussed(iconFocussedTemp)
+  }
 
   return (
-    <div className='srrMainCont'>
-      <div>
-        {
-          (rowData.loaded === true) &&
-          <div className='srrCont'>
-            {
-              rowData.data.map(data => {
-                return (
+    <>
+      {
+        (resultArr.complete == true) ? (<>
+          <div className='srrMainCont'>
 
-                  <div className='srrRowItemCont'>
-                    <img className='srrImage'
-                      src={`https://image.tmdb.org/t/p/w500/${data.backdrop_path}`}
-                      alt="No Image" />
-
-
-                    <div className='srrRowItemtext'>
-                      {data.title}
+            <div className='srrFlexCont'>
+              <div className='srrCont'>
+                {
+                  resultArr.result.map(data =>
+                    <div className='srrItem' key={data.id}>
+                      < SliderViewCardZoomed cardData={data} type={"movie"} />
                     </div>
+                  )
+                }
+              </div>
+            </div>
+          </div></>) : (<></>)
+      }
+    </>
 
-                  </div>
-                )
-              })
-            }
-          </div>
-        }
-      </div>
-    </div>
   )
 }
 
