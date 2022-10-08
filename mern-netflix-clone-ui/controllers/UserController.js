@@ -56,11 +56,11 @@ export const userLogin = async (req, res, next) => {
 
 export const userAddFavourites = async (req, res, next) => {
   try {
-    const updatedUser = await userModel.findByIdAndUpdate(req.body.userId,
-      { $push: { favourites: req.body.movieId } }, { new: true }
+    const updatedUser = await userModel.findByIdAndUpdate(req.params.id,
+      { $addToSet: { favourites: req.body.movieId } }, { new: true }
     )
-    console.log(updatedUser);
-    return res.status(200).json(updatedUser)
+    const { favourites } = updatedUser
+    return res.status(200).json({ "favourites": favourites })
   } catch (err) {
     return next(err)
   }
@@ -68,10 +68,11 @@ export const userAddFavourites = async (req, res, next) => {
 
 export const userRemoveFavourites = async (req, res, next) => {
   try {
-    const updatedUser = await userModel.findByIdAndUpdate(req.body.userId,
+    const updatedUser = await userModel.findByIdAndUpdate(req.params.id,
       { $pull: { favourites: req.body.movieId } }, { new: true }
     )
-    return res.status(200).json(updatedUser)
+    const { favourites } = updatedUser
+    return res.status(200).json({ "favourites": favourites })
   } catch (err) {
     return next(err)
   }
@@ -80,7 +81,8 @@ export const userRemoveFavourites = async (req, res, next) => {
 
 export const userGetFavourites = async (req, res, next) => {
   try {
-    const userData = await userModel.findById(req.body.userId)
+    console.log('userGetFavourites');
+    const userData = await userModel.findById(req.params.id)
     const { favourites } = userData
     return res.status(200).json({ "favourites": favourites })
   } catch (error) {

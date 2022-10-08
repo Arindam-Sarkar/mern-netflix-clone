@@ -9,7 +9,7 @@ export const AUTH_STATUS_FAIL = 2
 export const AUTH_STATUS_PENDING = 3
 
 const initialState = {
-  userAuth: JSON.parse(localStorage.getItem("userAuth")) || null
+  userAuth: JSON.parse(localStorage.getItem("userAuth")) || null,
 };
 
 export const authSlice = createSlice({

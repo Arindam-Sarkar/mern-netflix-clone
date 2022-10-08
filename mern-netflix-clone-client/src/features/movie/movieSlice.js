@@ -15,7 +15,6 @@ import {
 } from "../../utils/MovieTvReqUrls";
 
 
-
 //---------------------------------------------
 export const MOVIE_SLICE_CODE_TOP_RATED = 0
 export const MOVIE_SLICE_CODE_ACTION = 1
@@ -98,8 +97,10 @@ const MOVIE_SLICE_LOOK_UP_TABLE = [
 export const fetchMovieData = createAsyncThunk(
   "Movie/ByGenre",
 
+
   async (genre) => {
     let queryString = ``
+    let movieData = []
 
     if (genre === 0) {
       queryString = `https://api.themoviedb.org/3/movie/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`
@@ -107,10 +108,15 @@ export const fetchMovieData = createAsyncThunk(
       queryString = `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=${MOVIE_SLICE_LOOK_UP_TABLE[genre].movieDbCode}`
     }
 
-    const resp = await axios.get(queryString);
-    const movieData = await resp.data.results
-    const retVal = { genre, movieData }
-    return retVal;
+    try {
+      const resp = await axios.get(queryString);
+      movieData = await resp.data.results
+      const retVal = { genre, movieData }
+      return retVal;
+    } catch (error) {
+      const retVal = { genre, movieData }
+      return retVal;
+    }
   }
 )
 
@@ -119,17 +125,22 @@ export const fetchTvShowData = createAsyncThunk(
 
   async (genre) => {
     let queryString = ``
+    let movieData = []
 
-    if (genre === 0) {
-      queryString = `https://api.themoviedb.org/3/tv/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`
-    } else {
-      queryString = `https://api.themoviedb.org/3/discover/tv?api_key=${MOVIEDB_API_KEY}&with_genres=${MOVIE_SLICE_LOOK_UP_TABLE[genre].movieDbCode}`
+    try {
+      if (genre === 0) {
+        queryString = `https://api.themoviedb.org/3/tv/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`
+      } else {
+        queryString = `https://api.themoviedb.org/3/discover/tv?api_key=${MOVIEDB_API_KEY}&with_genres=${MOVIE_SLICE_LOOK_UP_TABLE[genre].movieDbCode}`
+      }
+      const resp = await axios.get(queryString);
+      movieData = await resp.data.results
+      const retVal = { genre, movieData }
+      return retVal;
+    } catch (error) {
+      const retVal = { genre, movieData }
+      return retVal;
     }
-
-    const resp = await axios.get(queryString);
-    const movieData = await resp.data.results
-    const retVal = { genre, movieData }
-    return retVal;
   }
 )
 
@@ -151,8 +162,6 @@ export const movieSlice = createSlice({
       state.tvShows[storageLocation].data = action.payload.movieData;
       state.tvShows[storageLocation].loaded = true
     });
-
-
   },
 });
 

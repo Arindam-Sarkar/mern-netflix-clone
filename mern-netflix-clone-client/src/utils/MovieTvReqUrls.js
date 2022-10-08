@@ -1,11 +1,11 @@
 import { MOVIEDB_API_KEY } from "../authKeys";
 
-export const MovieReqUrls = {
-  TopRated: `https://api.themoviedb.org/3/movie/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`,
-  Action: `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=28`,
-  Comedy: `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=35`,
-  Adventure: `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=16`,
-};
+// export const MovieReqUrls = {
+//   TopRated: `https://api.themoviedb.org/3/movie/top_rated?api_key=${MOVIEDB_API_KEY}&language=en-US&page=1`,
+//   Action: `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=28`,
+//   Comedy: `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=35`,
+//   Adventure: `https://api.themoviedb.org/3/discover/movie?api_key=${MOVIEDB_API_KEY}&with_genres=16`,
+// };
 
 export const MOVIEDB_CODE_ACTION = 28
 export const MOVIEDB_CODE_ADVENTURE = 12
