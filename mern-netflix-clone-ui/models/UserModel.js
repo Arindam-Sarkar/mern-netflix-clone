@@ -22,7 +22,13 @@ const UserSchema = new mongoose.Schema({
     // required: false,
     // unique: false,
   },
-  favourites: {
+  favouriteMovies: {
+    type: Array,
+    default: [],
+    // required: false,
+    // unique: false,
+  },
+  favouriteTvShows: {
     type: Array,
     default: [],
     // required: false,

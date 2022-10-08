@@ -6,16 +6,21 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
 
+import { useSelector, useDispatch } from 'react-redux';
+import { saveUserAuth } from '../features/auth/authSlice.js'
+import {
+  getUserFavourites,
+  addUserFavourites,
+  removeUserFavourites
+} from '../features/userData/userDataSlice';
+
 const SliderViewCardZoomed = ({ cardData, type }) => {
   const [title, setTitle] = useState('')
-  const [iconFocussed, setIconFocussed] =
-    useState([false, false, false, false, false])
+  const [iconFocussed, setIconFocussed] = useState([false, false, false, false, false])
 
-  const iconFocussedHandler = (setLocation, setState) => {
-    const iconFocussedTemp = [...iconFocussed]
-    iconFocussedTemp[setLocation] = setState
-    setIconFocussed(iconFocussedTemp)
-  }
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const userFavourites = useSelector((state) => state.userData.userFavourites);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (type === "movie") {
@@ -24,6 +29,38 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
       setTitle(cardData.name)
     }
   }, [cardData])
+
+  const iconFocussedHandler = (setLocation, setState) => {
+    const iconFocussedTemp = [...iconFocussed]
+    iconFocussedTemp[setLocation] = setState
+    setIconFocussed(iconFocussedTemp)
+  }
+
+
+  const addToFavouritesHandler = (e) => {
+    e.preventDefault()
+    dispatch(addUserFavourites({
+      userId: userAuth._id,
+      movieId: cardData.id
+    }))
+  }
+
+
+  const favStyleClassNameHandler = () => {
+    let tmpStr = ""
+
+    if (userFavourites.includes(cardData.id) === true) {
+      tmpStr = 'svczmIcons svczmIconsFavourite'
+      // setFavIconClassStyle(tmpStr)
+    } else {
+      tmpStr = (iconFocussed[3] ?
+        ('svczmIcons svczmIconsSelected') : ('svczmIcons'))
+      // setFavIconClassStyle(tmpStr)
+    }
+
+    return (tmpStr)
+  }
+
 
   return (
     < div className='svczImageCont' >
@@ -64,8 +101,8 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
           <AiTwotoneHeart
             onMouseEnter={() => iconFocussedHandler(3, true)}
             onMouseLeave={() => iconFocussedHandler(3, false)}
-            className={iconFocussed[3] ?
-              ('svczmIcons svczmIconsSelected') : ('svczmIcons')}
+            onClick={(e) => addToFavouritesHandler(e)}
+            className={favStyleClassNameHandler()}
           />
         </div>
       </div>
