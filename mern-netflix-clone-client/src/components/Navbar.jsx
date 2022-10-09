@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './navbar.css'
 import logo from '../assets/logo.png'
-import { getAuth, signOut } from "firebase/auth";
 import { Form, Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri"

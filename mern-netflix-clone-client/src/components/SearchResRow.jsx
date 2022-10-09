@@ -8,7 +8,7 @@ import SliderViewCardZoomed from './SliderViewCardZoomed'
 import './searchResRow.css'
 
 
-const SearchResRow = ({ resultArr }) => {
+const SearchResRow = ({ resultArr, type }) => {
   const [iconFocussed, setIconFocussed] = useState([false, false, false, false, false])
   const [rowData, SetRowData] = useState({ loaded: false, data: [] })
 
@@ -31,7 +31,7 @@ const SearchResRow = ({ resultArr }) => {
                 {
                   resultArr.result.map(data =>
                     <div className='srrItem' key={data.id}>
-                      < SliderViewCardZoomed cardData={data} type={"movie"} />
+                      < SliderViewCardZoomed cardData={data} type={type} />
                     </div>
                   )
                 }
