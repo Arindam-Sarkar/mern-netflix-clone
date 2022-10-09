@@ -11,7 +11,7 @@ import Search from './pages/Search';
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Player from './components/Player';
+import Player from './pages/Player';
 
 
 

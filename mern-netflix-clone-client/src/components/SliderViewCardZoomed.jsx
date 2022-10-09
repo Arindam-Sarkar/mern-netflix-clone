@@ -13,14 +13,19 @@ import {
   addUserFavourites,
   removeUserFavourites
 } from '../features/userData/userDataSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SliderViewCardZoomed = ({ cardData, type }) => {
   const [title, setTitle] = useState('')
   const [iconFocussed, setIconFocussed] = useState([false, false, false, false, false])
 
   const userAuth = useSelector((state) => state.auth.userAuth);
-  const userFavourites = useSelector((state) => state.userData.userFavourites);
+  const favouriteMovieIds = useSelector((state) => state.userData.favouriteMovieIds);
+  const favouriteTvShowIds = useSelector((state) => state.userData.favouriteTvShowIds);
+
+
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (type === "movie") {
@@ -37,30 +42,64 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
   }
 
 
-  const addToFavouritesHandler = (e) => {
+  const ToggleFavouritesHandler = (e) => {
     e.preventDefault()
-    dispatch(addUserFavourites({
-      userId: userAuth._id,
-      movieId: cardData.id
-    }))
+
+    // console.log("ToggleFavouritesHandler");
+    // console.log("type =", type)
+
+    // Check the type and add to fav if not there in fav
+    // and remove from fav if there in fav
+    if (type === "movie") {
+      if (favouriteMovieIds.includes(cardData.id) === true) {
+        dispatch(removeUserFavourites({ userId: userAuth._id, mId: cardData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      } else {
+        dispatch(addUserFavourites({ userId: userAuth._id, mId: cardData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      }
+    } else if (type === "tv") {
+      // console.log(cardData);
+      if (favouriteTvShowIds.includes(cardData.id) === true) {
+        dispatch(removeUserFavourites({ userId: userAuth._id, tId: cardData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      } else {
+        dispatch(addUserFavourites({ userId: userAuth._id, tId: cardData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      }
+    }
   }
 
 
   const favStyleClassNameHandler = () => {
     let tmpStr = ""
 
-    if (userFavourites.includes(cardData.id) === true) {
-      tmpStr = 'svczmIcons svczmIconsFavourite'
-      // setFavIconClassStyle(tmpStr)
-    } else {
-      tmpStr = (iconFocussed[3] ?
-        ('svczmIcons svczmIconsSelected') : ('svczmIcons'))
-      // setFavIconClassStyle(tmpStr)
+    if (type === "movie") {
+      if (favouriteMovieIds.includes(cardData.id) === true) {
+        tmpStr = 'svczmIcons svczmIconsFavourite'
+      } else {
+        tmpStr = (iconFocussed[3] ?
+          ('svczmIcons svczmIconsSelected') : ('svczmIcons'))
+      }
+    } else if (type === "tv") {
+      if (favouriteTvShowIds.includes(cardData.id) === true) {
+        tmpStr = 'svczmIcons svczmIconsFavourite'
+      } else {
+        tmpStr = (iconFocussed[3] ?
+          ('svczmIcons svczmIconsSelected') : ('svczmIcons'))
+      }
     }
-
     return (tmpStr)
   }
 
+  const videoPlayerHandler = (e) => {
+    e.preventDefault()
+    navigate('/player', { state: { movieData: cardData } })
+  }
 
   return (
     < div className='svczImageCont' >
@@ -82,6 +121,7 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
             onMouseLeave={() => iconFocussedHandler(0, false)}
             className={iconFocussed[0] ?
               ('svczmIcons svczmIconsSelected') : ('svczmIcons')}
+            onClick={(e) => videoPlayerHandler(e)}
           />
 
           <RiThumbUpFill
@@ -101,7 +141,7 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
           <AiTwotoneHeart
             onMouseEnter={() => iconFocussedHandler(3, true)}
             onMouseLeave={() => iconFocussedHandler(3, false)}
-            onClick={(e) => addToFavouritesHandler(e)}
+            onClick={(e) => ToggleFavouritesHandler(e)}
             className={favStyleClassNameHandler()}
           />
         </div>

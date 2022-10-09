@@ -11,26 +11,37 @@ import { AiOutlinePlus, AiTwotoneHeart } from "react-icons/ai";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 
+import { saveUserAuth } from '../features/auth/authSlice.js'
+import {
+  getUserFavourites,
+  addUserFavourites,
+  removeUserFavourites
+} from '../features/userData/userDataSlice';
+import { unstable_HistoryRouter, useNavigate } from 'react-router-dom';
+
+
 const MainScreen = ({ type }) => {
   const [title, setTitle] = useState('')
   const [mainScreenImageUrl, setMainScreenImageUrl] = useState("")
-  const [mainScreenData, setMainScreenData] = useState()
+  const [mainScreenData, setMainScreenData] = useState({})
 
-  // const [mainScreenData, setMainScreenData] = useState([])
+  const userAuth = useSelector((state) => state.auth.userAuth);
+  const favouriteMovieIds = useSelector((state) => state.userData.favouriteMovieIds);
+  const favouriteTvShowIds = useSelector((state) => state.userData.favouriteTvShowIds);
+
+  const movie = useSelector((state) => state.movie.movies[MOVIE_SLICE_CODE_TOP_RATED]);
+  const tvShow = useSelector((state) => state.movie.tvShows[MOVIE_SLICE_CODE_TOP_RATED]);
+
+  const [iconFocussed, setIconFocussed] = useState([false, false, false, false, false])
 
   const dispatch = useDispatch();
-
-  const [iconFocussed, setIconFocussed] =
-    useState([false, false, false, false, false])
+  const navigate = useNavigate()
 
   const iconFocussedHandler = (setLocation, setState) => {
     const iconFocussedTemp = [...iconFocussed]
     iconFocussedTemp[setLocation] = setState
     setIconFocussed(iconFocussedTemp)
   }
-
-  const movie = useSelector((state) => state.movie.movies[MOVIE_SLICE_CODE_TOP_RATED]);
-  const tvShow = useSelector((state) => state.movie.tvShows[MOVIE_SLICE_CODE_TOP_RATED]);
 
   useEffect(() => {
     if (type === "movie") {
@@ -67,6 +78,68 @@ const MainScreen = ({ type }) => {
     }
   }, [tvShow.loaded])
 
+  const ToggleFavouritesHandler = (e) => {
+    e.preventDefault()
+
+    if (!mainScreenData) {
+      return
+    }
+    // Check the type and add to fav if not there in fav
+    // and remove from fav if there in fav
+    if (type === "movie") {
+      if (favouriteMovieIds.includes(mainScreenData.id) === true) {
+        dispatch(removeUserFavourites({ userId: userAuth._id, mId: mainScreenData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      } else {
+        dispatch(addUserFavourites({ userId: userAuth._id, mId: mainScreenData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      }
+    } else if (type === "tv") {
+      // console.log(mainScreenData);
+      if (favouriteTvShowIds.includes(mainScreenData.id) === true) {
+        dispatch(removeUserFavourites({ userId: userAuth._id, tId: mainScreenData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      } else {
+        dispatch(addUserFavourites({ userId: userAuth._id, tId: mainScreenData.id }))
+        // .then(e => console.log(e))
+        // .catch(e => console.log(e))
+      }
+    }
+  }
+
+  const favStyleClassNameHandler = () => {
+    let tmpStr = ""
+
+    if (!mainScreenData.id) {
+      return
+    }
+
+    if (type === "movie") {
+      if (favouriteMovieIds.includes(mainScreenData.id) === true) {
+        tmpStr = 'mainScreenmIcons mainScreenmIconsFavourite'
+      } else {
+        tmpStr = (iconFocussed[3] ?
+          ('mainScreenmIcons mainScreenmIconsSelected') : ('mainScreenmIcons'))
+      }
+    } else if (type === "tv") {
+      if (favouriteTvShowIds.includes(mainScreenData.id) === true) {
+        tmpStr = 'mainScreenmIcons svczmIconsFavourite'
+      } else {
+        tmpStr = (iconFocussed[3] ?
+          ('mainScreenmIcons mainScreenmIconsSelected') : ('mainScreenmIcons'))
+      }
+    }
+    return (tmpStr)
+  }
+
+  const videoPlayerHandler = (e) => {
+    e.preventDefault()
+    navigate('/player', { state: { movieData: mainScreenData } })
+  }
+
   return (
 
     <div className="mainScreenMainCont">
@@ -86,6 +159,7 @@ const MainScreen = ({ type }) => {
                 onMouseLeave={() => iconFocussedHandler(0, false)}
                 className={iconFocussed[0] ?
                   ('mainScreenmIcons mainScreenmIconsSelected') : ('mainScreenmIcons')}
+                onClick={(e) => videoPlayerHandler(e)}
               />
 
               <RiThumbUpFill
@@ -105,14 +179,14 @@ const MainScreen = ({ type }) => {
               <AiTwotoneHeart
                 onMouseEnter={() => iconFocussedHandler(3, true)}
                 onMouseLeave={() => iconFocussedHandler(3, false)}
-                className={iconFocussed[3] ?
-                  ('mainScreenmIcons mainScreenmIconsSelected') : ('mainScreenmIcons')}
+                onClick={(e) => ToggleFavouritesHandler(e)}
+                className={favStyleClassNameHandler()}
               />
             </div>
           </div>
 
           <div className='mainScreenDiscCont'>
-            <span className='mainScreenDisc'>{mainScreenData?.overview.substring(0, 300)}... </span>
+            <span className='mainScreenDisc'>{mainScreenData.overview?.substring(0, 300)}... </span>
           </div>
         </div >
       </div>

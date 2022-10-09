@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import './navbar.css'
 import logo from '../assets/logo.png'
 import { getAuth, signOut } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri"
 
@@ -25,6 +25,10 @@ const Navbar = ({ pageScrolled, parentPage }) => {
   const [searchWarning, setSearchWarning] = useState({ alert: false, msg: "" })
   const [inputHover, setInputHover] = useState(false);
   const [searchIp, setSearchIp] = useState('')
+  const [mediaType, setMediaType] = useState('movie')
+
+  const [inputClassName, setInputClassName] = useState("navSrchInput navSrchInputInvisible")
+  const [radioClassName, setRadioClassName] = useState("navSrchRadio navSrchRadioInvisible")
 
   const userAuth = useSelector((state) => state.auth.userAuth);
 
@@ -32,13 +36,13 @@ const Navbar = ({ pageScrolled, parentPage }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-
   // console.log(userAuth)
   if (userAuth?._id) {
     if (!user?._id) {
       setUser(userAuth);
     }
   }
+
 
   // useEffect(() => {
   //   if (userAuth._id) {
@@ -102,11 +106,18 @@ const Navbar = ({ pageScrolled, parentPage }) => {
     }
   }
 
-  let inputClassName = "navSrchInput"
 
-  showSearch ?
-    (inputClassName = "navSrchInput") :
-    (inputClassName = "navSrchInput navSrchInputInvisible")
+
+  useEffect(() => {
+    console.log("effect")
+    console.log("showSearch=", showSearch);
+    if (showSearch === true) {
+      setInputClassName("navSrchInput")
+    } else {
+      setInputClassName("navSrchInput navSrchInputInvisible")
+    }
+  }, [showSearch])
+
 
 
   // console.log(searchRef)
@@ -134,9 +145,6 @@ const Navbar = ({ pageScrolled, parentPage }) => {
                   }
                 </div>
 
-
-
-
                 <form className='navSrchCont'>
                   <input
                     ref={searchRef}
@@ -160,7 +168,6 @@ const Navbar = ({ pageScrolled, parentPage }) => {
                     (<h2 className='navSrchWarning'>{searchWarning.msg}</h2>)
                     : (<></>)}
 
-
                   <button
                     className='navSrchBtn'
                     onFocus={() => setShowSearch(true)}
@@ -169,14 +176,11 @@ const Navbar = ({ pageScrolled, parentPage }) => {
                         setShowSearch(false);
                       }
                     }}
-                    onClick={(e) => searchNavHandler(e)}
-                  >
-
-
+                    onClick={(e) => searchNavHandler(e)}>
                     < FaSearch />
                   </button>
-                </form>
 
+                </form>
 
                 <button
                   className='navLogoutBtn'
@@ -186,27 +190,28 @@ const Navbar = ({ pageScrolled, parentPage }) => {
               </div>
             </>)
           :
-          ((parentPage === "Login") ?
-            (<>
-              <div className='navCont'>
-                <img src={logo} alt="" />
-                <button
-                  className='navButton2'
-                  onClick={(e) => signUpNavHandler(e)}>
-                  Sign Up
-                </button>
-              </div>
-            </>) :
-            (<>
-              <div className='navCont'>
-                <img src={logo} alt="" />
-                <button
-                  className='navButton2'
-                  onClick={(e) => loginNavHandler(e)}>
-                  Log In
-                </button>
-              </div>
-            </>))
+          ( // User Absent
+            (parentPage === "Login") ?
+              (<>
+                <div className='navCont'>
+                  <img src={logo} alt="" />
+                  <button
+                    className='navButton2'
+                    onClick={(e) => signUpNavHandler(e)}>
+                    Sign Up
+                  </button>
+                </div>
+              </>) :
+              (<>
+                <div className='navCont'>
+                  <img src={logo} alt="" />
+                  <button
+                    className='navButton2'
+                    onClick={(e) => loginNavHandler(e)}>
+                    Log In
+                  </button>
+                </div>
+              </>))
 
 
 

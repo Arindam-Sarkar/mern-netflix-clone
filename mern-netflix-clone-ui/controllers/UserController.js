@@ -56,18 +56,25 @@ export const userLogin = async (req, res, next) => {
 
 export const userAddFavourites = async (req, res, next) => {
   try {
-    if (req.body.movieId) {
+    if (req.body.mId) {
       const updatedUser = await userModel.findByIdAndUpdate(req.params.id,
-        { $addToSet: { favouriteMovies: req.body.movieId } }, { new: true })
+        { $addToSet: { favouriteMovies: req.body.mId } }, { new: true })
 
-      const { favouriteMovies } = updatedUser
-      return res.status(200).json({ "favouriteMovies": favouriteMovies })
+      const { favouriteMovies, favouriteTvShows } = updatedUser
+      return res.status(200).json({
+        "favouriteMovies": favouriteMovies,
+        "favouriteTvShows": favouriteTvShows
+      })
     }
-    else if (req.body.tvShowId) {
-      const updatedUser = await userModel.findByIdAndUpdate(req.params.id,
-        { $addToSet: { favouriteTvShows: req.body.tvShowId } }, { new: true })
-      const { favouriteTvShows } = updatedUser
-      return res.status(200).json({ "favouriteTvShows": favouriteTvShows })
+    else if (req.body.tId) {
+      var updatedUser = await userModel.findByIdAndUpdate(req.params.id,
+        { $addToSet: { favouriteTvShows: req.body.tId } }, { new: true })
+
+      const { favouriteMovies, favouriteTvShows } = updatedUser
+      return res.status(200).json({
+        "favouriteMovies": favouriteMovies,
+        "favouriteTvShows": favouriteTvShows
+      })
     }
     else {
       return next(createErrorMsg(400, "Wrong json body"))
@@ -79,19 +86,27 @@ export const userAddFavourites = async (req, res, next) => {
 
 export const userRemoveFavourites = async (req, res, next) => {
   try {
-    if (req.body.movieId) {
+    if (req.body.mId) {
       const updatedUser = await userModel.findByIdAndUpdate(req.params.id,
-        { $pull: { favouriteMovies: req.body.movieId } }, { new: true }
+        { $pull: { favouriteMovies: req.body.mId } }, { new: true }
       )
-      const { favouriteMovies } = updatedUser
-      return res.status(200).json({ "favouriteMovies": favouriteMovies })
+
+      const { favouriteMovies, favouriteTvShows } = updatedUser
+      return res.status(200).json({
+        "favouriteMovies": favouriteMovies,
+        "favouriteTvShows": favouriteTvShows
+      })
     }
-    else if (req.body.tvShowId) {
+    else if (req.body.tId) {
       const updatedUser = await userModel.findByIdAndUpdate(req.params.id,
-        { $pull: { favouriteTvShows: req.body.tvShowId } }, { new: true }
+        { $pull: { favouriteTvShows: req.body.tId } }, { new: true }
       )
-      const { favouriteTvShows } = updatedUser
-      return res.status(200).json({ "favouriteTvShows": favouriteTvShows })
+
+      const { favouriteMovies, favouriteTvShows } = updatedUser
+      return res.status(200).json({
+        "favouriteMovies": favouriteMovies,
+        "favouriteTvShows": favouriteTvShows
+      })
     }
     else {
       return next(createErrorMsg(400, "Wrong json body"))

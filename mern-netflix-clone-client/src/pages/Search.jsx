@@ -13,7 +13,7 @@ import { saveUserAuth } from '../features/auth/authSlice.js'
 
 
 
-const Search = () => {
+const Search = ({ type }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const [searchPage, setSearchPage] = useState(1)
   const [pageScrolled, setPageScrolled] = useState(false)
