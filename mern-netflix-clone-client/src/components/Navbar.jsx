@@ -108,8 +108,8 @@ const Navbar = ({ pageScrolled, parentPage }) => {
 
 
   useEffect(() => {
-    console.log("effect")
-    console.log("showSearch=", showSearch);
+    // console.log("effect")
+    // console.log("showSearch=", showSearch);
     if (showSearch === true) {
       setInputClassName("navSrchInput")
     } else {
