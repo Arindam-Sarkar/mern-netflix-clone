@@ -74,7 +74,7 @@ const Search = ({ type }) => {
   }, [userAuth?._id])
 
   const radioButtonHandler = (value) => {
-    console.log("radioButtonHandler =", value)
+    // console.log("radioButtonHandler =", value)
     setMediaType(value)
 
     if (value === "movie") {
