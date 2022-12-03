@@ -6,6 +6,9 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserAuth } from '../features/auth/authSlice.js'
 import {
@@ -52,10 +55,12 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
     // and remove from fav if there in fav
     if (type === "movie") {
       if (favouriteMovieIds.includes(cardData.id) === true) {
+        toast("Removed From Favourites")
         dispatch(removeUserFavourites({ userId: userAuth._id, mId: cardData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))
       } else {
+        toast("Added To Favourites")
         dispatch(addUserFavourites({ userId: userAuth._id, mId: cardData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))
@@ -63,10 +68,12 @@ const SliderViewCardZoomed = ({ cardData, type }) => {
     } else if (type === "tv") {
       // console.log(cardData);
       if (favouriteTvShowIds.includes(cardData.id) === true) {
+        toast("Removed From Favourites")
         dispatch(removeUserFavourites({ userId: userAuth._id, tId: cardData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))
       } else {
+        toast("Added To Favourites")
         dispatch(addUserFavourites({ userId: userAuth._id, tId: cardData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))

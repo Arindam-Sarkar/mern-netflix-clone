@@ -3,13 +3,16 @@ import BackgroundImage from '../components/BackgroundImage'
 
 import { useNavigate } from "react-router-dom";
 
-
 import './signup.css'
 import Navbar from '../components/Navbar';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserAuth } from '../features/auth/authSlice.js'
 import axios from 'axios';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Signup = () => {
   const [userName, setUserName] = useState("")
@@ -41,8 +44,8 @@ const Signup = () => {
       }
 
       const res = await axios.post("/user/register", credentialJson);
-
       if (res.data) {
+        toast("Signup Successful")
         dispatch(saveUserAuth(res.data))
       } else {
         dispatch(saveUserAuth({}))
@@ -132,6 +135,18 @@ const Signup = () => {
             </>
           }
         </div>
+
+        <ToastContainer
+          position="top-center"
+          autoClose={500}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable={false}
+          pauseOnHover
+          theme="light" />
 
       </div>
     </>

@@ -7,6 +7,10 @@ import Navbar from '../components/Navbar';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserAuth } from '../features/auth/authSlice.js'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import axios from 'axios';
 
 const Login = () => {
@@ -31,14 +35,16 @@ const Login = () => {
       const res = await axios.post("/user/login", credentialJson);
 
       if (res.data) {
+        // console.log("Login Successful");
+        toast("Login Successful")
         dispatch(saveUserAuth(res.data))
       } else {
         dispatch(saveUserAuth({}))
       }
 
     } catch (error) {
-      if (error.response.data.message?.
-        match('User not found !')) {
+      if (error.response.data.message?.match('User not found !')) {
+        toast("User not found !")
         setShowWrongCreds(true)
       }
       setEmail("")
@@ -48,13 +54,13 @@ const Login = () => {
 
   useEffect(() => {
     if (userAuth?._id) {
-      // console.log(userAuth);
+      // console.log(userAuth)
       navigate("/movies");
     }
   }, [userAuth?._id])
 
   return (
-    <>
+    <div>
       <BackgroundImage />
       <Navbar parentPage={'Login'} />
       <div className='loginMainContainer'>
@@ -86,12 +92,10 @@ const Login = () => {
                 Wrong Email or Password
               </div>
             }
-
           </form>
-
         </div>
       </div>
-    </>
+    </div>
   )
 }
 

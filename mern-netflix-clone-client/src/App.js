@@ -13,7 +13,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Player from './pages/Player';
 
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -32,6 +33,18 @@ function App() {
           <Route path='/signup' element={<Signup />} />
           <Route path='/search' element={<Search />} />
         </Routes>
+
+        <ToastContainer
+          position="top-center"
+          autoClose={500}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss
+          draggable={false}
+          pauseOnHover
+          theme="light" />
       </div>
     </>
   );

@@ -11,6 +11,10 @@ import { AiOutlinePlus, AiTwotoneHeart } from "react-icons/ai";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 import { saveUserAuth } from '../features/auth/authSlice.js'
 import {
   getUserFavourites,
@@ -88,10 +92,12 @@ const MainScreen = ({ type }) => {
     // and remove from fav if there in fav
     if (type === "movie") {
       if (favouriteMovieIds.includes(mainScreenData.id) === true) {
+        toast("Removed From Favourites")
         dispatch(removeUserFavourites({ userId: userAuth._id, mId: mainScreenData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))
       } else {
+        toast("Added To Favourites")
         dispatch(addUserFavourites({ userId: userAuth._id, mId: mainScreenData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))
@@ -99,10 +105,12 @@ const MainScreen = ({ type }) => {
     } else if (type === "tv") {
       // console.log(mainScreenData);
       if (favouriteTvShowIds.includes(mainScreenData.id) === true) {
+        toast("Removed From Favourites")
         dispatch(removeUserFavourites({ userId: userAuth._id, tId: mainScreenData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))
       } else {
+        toast("Added To Favourites")
         dispatch(addUserFavourites({ userId: userAuth._id, tId: mainScreenData.id }))
         // .then(e => console.log(e))
         // .catch(e => console.log(e))

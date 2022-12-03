@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { saveUserAuth, deleteUserAuth } from '../features/auth/authSlice.js'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const navbarLinks = [
   // { name: "Home", path: "/" },
@@ -60,6 +62,7 @@ const Navbar = ({ pageScrolled, parentPage }) => {
     dispatch(deleteUserAuth())
     setUser(temp)
 
+    toast("Logout successful")
     navigate("/login")
   }
 

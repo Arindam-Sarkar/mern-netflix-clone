@@ -2,7 +2,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from "@reduxjs/toolkit";
-import { MOVIEDB_API_KEY } from "../../authKeys";
+import { MOVIEDB_API_KEY } from "../../authKeys.js";
 import axios from "axios";
 
 import {
