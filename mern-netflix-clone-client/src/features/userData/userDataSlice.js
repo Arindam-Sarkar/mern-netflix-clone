@@ -4,6 +4,8 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
+import { serverUrl } from "../../serverUrl";
+
 const initialState = {
   favouriteMovieIds: JSON.parse(localStorage.getItem("favouriteMovieIds")) || [null],
   favouriteTvShowIds: JSON.parse(localStorage.getItem("favouriteTvShowIds")) || [null],
@@ -14,7 +16,7 @@ export const getUserFavourites = createAsyncThunk(
 
   async (getObj) => {
     try {
-      const resp = await axios.get(`user/favourites/get/${getObj.userId}`);
+      const resp = await axios.get(`${serverUrl}/user/favourites/get/${getObj.userId}`);
       const retVal = await resp.data
       // console.log(retVal);
       return retVal;
@@ -37,7 +39,7 @@ export const addUserFavourites = createAsyncThunk(
       }
 
       const resp = await axios.put(
-        `user/favourites/add/${addObj.userId}`, bodyObj);
+        `${serverUrl}/user/favourites/add/${addObj.userId}`, bodyObj);
       const retVal = await resp.data
       return retVal;
     } catch (error) {
@@ -59,7 +61,7 @@ export const removeUserFavourites = createAsyncThunk(
       }
 
       const resp = await axios.put(
-        `user/favourites/remove/${remObj.userId}`, bodyObj);
+        `${serverUrl}/user/favourites/remove/${remObj.userId}`, bodyObj);
       const retVal = await resp.data
       return retVal;
     } catch (error) {

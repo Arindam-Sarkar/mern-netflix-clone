@@ -12,6 +12,7 @@ import axios from 'axios';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { serverUrl } from '../serverUrl';
 
 
 const Signup = () => {
@@ -43,7 +44,7 @@ const Signup = () => {
         "password": pass
       }
 
-      const res = await axios.post("/user/register", credentialJson);
+      const res = await axios.post(`${serverUrl}/user/register`, credentialJson);
       if (res.data) {
         toast("Signup Successful")
         dispatch(saveUserAuth(res.data))

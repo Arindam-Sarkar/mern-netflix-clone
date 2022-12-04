@@ -3,7 +3,6 @@ import './App.css';
 import BackgroundImage from './components/BackgroundImage';
 import { Route, Routes } from "react-router-dom";
 
-import Navbar from './components/Navbar';
 import Movies from './pages/Movies';
 import TvShows from './pages/TvShows';
 import Favourites from './pages/Favourites'
@@ -13,7 +12,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Player from './pages/Player';
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 

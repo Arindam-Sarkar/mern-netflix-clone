@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 import axios from 'axios';
+import { serverUrl } from '../serverUrl';
 
 const Login = () => {
   const [email, setEmail] = useState("")
@@ -32,7 +33,7 @@ const Login = () => {
         "password": pass
       }
 
-      const res = await axios.post("/user/login", credentialJson);
+      const res = await axios.post(`${serverUrl}/user/login`, credentialJson);
 
       if (res.data) {
         // console.log("Login Successful");
